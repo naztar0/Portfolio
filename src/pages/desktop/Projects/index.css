@@ -1,0 +1,14 @@
+.projects {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  & .content {
+    display: flex;
+    flex-direction: column;
+    width: 58vw; /* 1120px */
+    height: 36.45vw; /* 700px */
+
+  }
+}

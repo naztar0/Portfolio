@@ -1,0 +1,42 @@
+.mask-overflow-container {
+  --opposite-side-gradient: #000 50%, transparent 50%;
+  --mask-overflow-gradient-start: linear-gradient(to left, var(--side-gradient));
+  --mask-overflow-gradient-end: linear-gradient(to right, var(--side-gradient));
+  --mask-overflow-gradient-both:
+          linear-gradient(to left, var(--side-gradient), var(--opposite-side-gradient)),
+          linear-gradient(to right, var(--side-gradient), var(--opposite-side-gradient));
+  width: 100%;
+  overflow-x: auto;
+  --side-gradient: transparent 8px, #000 80px;
+
+  & .mask-overflow-wrap {
+    overflow-x: auto;
+    width: 100%;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    &.start:not(.end) {
+      mask-image: var(--mask-overflow-gradient-start);
+      -webkit-mask-image: var(--mask-overflow-gradient-start);
+    }
+
+    &.end:not(.start) {
+      mask-image: var(--mask-overflow-gradient-end);
+      -webkit-mask-image: var(--mask-overflow-gradient-end);
+    }
+
+    &.start.end {
+      mask-image: var(--mask-overflow-gradient-both);
+      -webkit-mask-image: var(--mask-overflow-gradient-both);
+    }
+
+    & .mask-overflow {
+      white-space: nowrap;
+      width: 100%;
+      user-select: none;
+    }
+  }
+}

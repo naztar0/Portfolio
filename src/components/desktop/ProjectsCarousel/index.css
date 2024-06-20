@@ -1,0 +1,55 @@
+.projects-carousel-scene {
+  height: 18.75vw; /* 360px */
+  margin-top: 7.81vw; /* 150px */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  perspective: 104vw; /* 2000px */
+  transition: transform 1s var(--cubic-bezier-125), opacity 0.5s var(--cubic-bezier-80);
+
+  &.out {
+    transition-duration: 0.3s !important;
+    transition-timing-function: ease-in-out !important;
+    transition-delay: 0s !important;
+  }
+
+  &.hidden {
+    transform: translateY(500px) scaleY(0) scaleX(0.8);
+    opacity: 0;
+  }
+
+  & .carousel {
+    width: 100%;
+    height: 100%;
+    transform: translateZ(-14.58vw); /* 280px */
+    position: absolute;
+    transform-style: preserve-3d;
+
+    & .project {
+      backface-visibility: hidden;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      transition: transform 1s, opacity 1s;
+
+      &.hide {
+        display: none;
+      }
+
+      &:nth-child(1) {
+        transform: translateZ(13.96vw); /* 268px */
+      }
+
+      &:nth-child(2) {
+        transform: rotateX(-72deg) translateZ(13.96vw); /* 268px */
+        opacity: 0.1;
+      }
+
+      &:nth-child(3) {
+        transform: rotateX(-144deg) translateZ(13.96vw); /* 268px */
+      }
+    }
+  }
+}

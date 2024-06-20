@@ -1,0 +1,114 @@
+.socials-button {
+  position: absolute;
+  top: 2.5vw /* 10px */;
+  left: 2.5vw /* 10px */;
+  width: 5.8vw /* 24px */;
+  height: 5.8vw /* 24px */;
+  border: none;
+  background: none;
+  padding: 0;
+  opacity: 0.6;
+  transition: transform 1.5s var(--cubic-bezier-150), opacity 0.3s linear;
+
+  &.out {
+    transition-duration: 0.3s !important;
+    transition-timing-function: ease-in-out !important;
+    transition-delay: 0s !important;
+  }
+
+  &.hidden {
+    transform: translateY(-19.5vw); /* 80px */
+    opacity: 0;
+  }
+
+  & svg {
+    width: inherit;
+    height: inherit;
+    fill: var(--text-dark);
+  }
+}
+
+.socials {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background: var(--black25);
+  transition: opacity 0.2s ease-in-out;
+
+  &.hidden {
+    opacity: 0;
+  }
+
+  & .grid {
+    display: grid;
+    place-items: center;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    grid-gap: 9.7vw /* 40px */;
+    background: var(--white);
+    border-radius: 14vw /* 58px */;
+    padding: 4.9vw /* 20px */;
+
+    & a {
+      width: 19.5vw /* 80px */;
+      height: 19.5vw /* 80px */;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.5s var(--cubic-bezier-150), opacity 0.6s ease-in-out;
+
+      &.hidden {
+        opacity: 0;
+
+        &:nth-child(1) { transform: translate(-30vw, 0); }
+        &:nth-child(2) { transform: translate(0, -30vw); }
+        &:nth-child(3) { transform: translate(0, 30vw); }
+        &:nth-child(4) { transform: translate(30vw, 0); }
+      }
+
+      &:nth-child(1) { transition-delay: 0.1s; }
+      &:nth-child(2) { transition-delay: 0.2s; }
+      &:nth-child(3) { transition-delay: 0.4s; }
+      &:nth-child(4) { transition-delay: 0.3s; }
+
+      & svg {
+        width: inherit;
+        height: inherit;
+        fill: var(--text-dark);
+        transition: fill 0.2s ease-in-out;
+
+        &:hover {
+          fill: var(--primary);
+        }
+      }
+    }
+  }
+}
+
+.dark-theme {
+  & .socials-button {
+    & svg {
+      fill: var(--text-light);
+    }
+  }
+
+  & .socials {
+    background: var(--black50);
+
+    & .grid {
+      background: var(--black);
+
+      & a {
+        & svg {
+          fill: var(--text-light);
+        }
+      }
+    }
+  }
+}

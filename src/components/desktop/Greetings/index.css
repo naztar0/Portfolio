@@ -1,0 +1,31 @@
+.greetings {
+  & .title.hidden {
+    & :nth-child(1) {
+      transform: translateX(-1000px);
+      opacity: 0;
+    }
+
+    & :nth-child(2) {
+      transform: translateX(1000px);
+      opacity: 0;
+    }
+  }
+
+  & .text.hidden {
+    transform: translateY(200px);
+    opacity: 0;
+  }
+
+  & .illustrations {
+    & > :nth-child(1) {
+      width: 28.8vw; /* 554px; */
+      height: 28.8vw;
+      flex-shrink: 0;
+    }
+
+    &.hidden > div {
+      transform: scale(0) rotate(90deg);
+      opacity: 0;
+    }
+  }
+}
