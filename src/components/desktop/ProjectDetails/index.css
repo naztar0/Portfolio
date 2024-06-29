@@ -79,6 +79,7 @@
     }
 
     & .actions {
+      --border-width: 0.16vw; /* 3px */
       display: flex;
       flex-direction: row;
       gap: 1.04vw; /* 20px */
@@ -92,6 +93,7 @@
         font-size: 1.04vw; /* 20px */
         font-weight: 600;
         background: var(--button-light);
+        border: var(--border-width) solid var(--primary-light2);
         transition: transform 0.3s var(--cubic-bezier-150), opacity 0.2s ease-in;
         transition-delay: 0.5s;
 
@@ -100,7 +102,6 @@
         }
 
         &.btn-gradient-border {
-          --border-width: 0.16vw; /* 3px */
           position: relative;
           background-clip: padding-box;
           border: var(--border-width) solid transparent;
@@ -151,6 +152,7 @@
       & .actions {
         & button {
           background: var(--button-dark);
+          border: none;
 
           &.btn-gradient-border {
             background-clip: padding-box;
