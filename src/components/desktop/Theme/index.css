@@ -1,0 +1,52 @@
+.page-theme {
+  position: absolute;
+  top: 1.56vw; /* 30px */
+  right: 1.56vw; /* 30px */
+  padding: 1vw;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.6;
+  transition: transform 1.5s var(--cubic-bezier-150), opacity 0.3s linear;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  &.out {
+    transition-duration: 0.3s !important;
+    transition-timing-function: ease-in-out !important;
+    transition-delay: 0s !important;
+  }
+
+  &.hidden {
+    transform: translateY(-4.16vw); /* 80px */
+    opacity: 0;
+  }
+
+  & button {
+    width: 1.56vw; /* 30px */
+    height: 1.56vw; /* 30px */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    padding: 0;
+    cursor: pointer;
+
+    & svg {
+      width: inherit;
+      height: inherit;
+      fill: var(--text-dark);
+    }
+  }
+}
+
+.dark-theme {
+  & .page-theme {
+    & svg {
+      fill: var(--text-light);
+    }
+  }
+}

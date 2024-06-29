@@ -1,0 +1,67 @@
+.logo-stack {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  & .box {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    gap: 0.31vw; /* 6px */
+    padding: 0.52vw; /* 10px */
+    border: 0.31vw solid var(--primary-light4); /* 6px */
+    border-top: none;
+    border-radius: 0.42vw; /* 8px */
+
+    & .item {
+      font-size: 0.73vw; /* 14px */
+      font-weight: 400;
+      text-align: center;
+      color: var(--text-dark);
+      background: var(--white25);
+      padding: 0.42vw; /* 8px */
+      border-radius: 0.31vw; /* 6px */
+      cursor: default;
+      transition: transform 0.2s ease-out;
+
+      &:hover {
+        transform: scale(1.05);
+      }
+
+      & a {
+        color: inherit;
+        font-weight: normal;
+        font-style: italic;
+      }
+    }
+  }
+}
+
+.dark-theme {
+  & .logo-stack {
+    & .box {
+      border-color: var(--primary-dark4);
+
+      & .item {
+        color: var(--text-light);
+        background: var(--black25);
+      }
+    }
+  }
+}
+
+#root[view-transition='3'] {
+  & .content {
+    view-transition-name: project-stack;
+  }
+}
+
+::view-transition-old(project-stack) {
+  animation-duration: 0.3s;
+}
+
+::view-transition-new(project-stack) {
+  animation-duration: 0.3s;
+}

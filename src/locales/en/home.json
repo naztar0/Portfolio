@@ -1,0 +1,30 @@
+{
+  "title": "Home",
+  "greetings": {
+    "title": [
+      "Neulen’s",
+      "Dev Corner"
+    ],
+    "text": [
+      "Greetings! I'm Nazar, a {age} year old seasoned Software Engineer and Innovator from Ukraine.",
+      "Creating web apps, bots, extensions, desktop apps, parsers and other handy stuff.",
+      "Also well versed in graphics and video editing, all promotional materials for my projects are created by me."
+    ]
+  },
+  "projects": {
+    "title": [
+      "My Projects",
+      "Showcase"
+    ],
+    "text": "Navigate through a compilation of my technical achievements – where ideas evolve into functional excellence",
+    "button": "Explore"
+  },
+  "skills": {
+    "title": [
+      "Technical",
+      "Proficiency"
+    ],
+    "text": "A complete overview of my proficiency across languages, frameworks, tools and non-programming skills and achievements",
+    "button": "Look over"
+  }
+}

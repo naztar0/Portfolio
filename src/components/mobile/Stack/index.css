@@ -1,0 +1,67 @@
+.logo-stack {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  & .box {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    gap: 0.24vw; /* 4px */
+    padding: 2.44vw; /* 10px */
+    border: 1.46vw solid var(--primary-light4); /* 6px */
+    border-top: none;
+    border-radius: 1.95vw; /* 8px */
+
+    & .item {
+      font-size: 2.93vw; /* 12px */
+      font-weight: 400;
+      text-align: center;
+      color: var(--text-dark);
+      background: var(--white25);
+      padding: 1.46vw; /* 6px */
+      border-radius: 1.46vw; /* 6px */
+      cursor: default;
+      transition: transform 0.2s ease-out;
+
+      &:hover {
+        transform: scale(1.05);
+      }
+
+      & a {
+        color: inherit;
+        font-weight: normal;
+        font-style: italic;
+      }
+    }
+  }
+}
+
+.dark-theme {
+  & .logo-stack {
+    & .box {
+      border-color: var(--primary-dark4);
+
+      & .item {
+        color: var(--text-light);
+        background: var(--black25);
+      }
+    }
+  }
+}
+
+#root[view-transition='3'] {
+  & .project {
+    view-transition-name: project-stack;
+  }
+}
+
+::view-transition-old(project-stack) {
+  animation-duration: 0.3s;
+}
+
+::view-transition-new(project-stack) {
+  animation-duration: 0.3s;
+}

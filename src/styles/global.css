@@ -1,0 +1,91 @@
+@import "_fonts.css";
+@import "_variables.css";
+
+:root {
+  color-scheme: light dark;
+  font-family: Rubik, Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+a {
+  font-weight: 500;
+  color: var(--text-link);
+  text-decoration: inherit;
+}
+
+body {
+  margin: 0;
+  overflow: hidden;
+  touch-action: none;
+
+  @media (max-width: 768px) {
+    overflow: auto;
+  }
+}
+
+.button {
+  border: none;
+  border-radius: 99px;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.btn-gradient {
+  background: var(--button-gradient);
+  box-shadow: var(--button-glow-50);
+  color: var(--text-light);
+
+  &:hover {
+    box-shadow: var(--button-glow);
+  }
+}
+
+.svg-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.text-themed {
+  color: var(--text-dark);
+}
+
+.dark-theme {
+  & .text-themed {
+    color: var(--text-light);
+  }
+}
+
+#root[view-transition='1'] {
+  view-transition-name: root-theme;
+}
+
+::view-transition-old(root) {
+  animation: none;
+}
+
+::view-transition-new(root) {
+  animation: none;
+}
+
+::view-transition-old(root-theme) {
+  z-index: var(--view-transition-z-index);
+  animation: none;
+}
+
+::view-transition-new(root-theme) {
+  animation: none;
+}
+
+@keyframes button-bounce {
+  0% { transform: scaleY(1) scaleX(1); }
+  25% { transform: scaleY(0.9) scaleX(1.1); }
+  46% { transform: scaleY(1.1) scaleX(0.9); }
+  64% { transform: scaleY(0.93) scaleX(1.07); }
+  76% { transform: scaleY(1.06) scaleX(0.94); }
+  88% { transform: scaleY(0.96) scaleX(1.03); }
+  100% { transform: scaleY(1) scaleX(1); }
+}
