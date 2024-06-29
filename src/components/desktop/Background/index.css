@@ -7,30 +7,19 @@
   z-index: -1;
   background: var(--bg-root-light);
 
-  & #bg-ellipse {
+  & #bg-canvas-ellipse {
     position: absolute;
-    width: 37vw; /* 710px */
-    height: 37vw; /* 710px */
-    border-radius: 50%;
-    background: linear-gradient(300deg, var(--gradient-color-1) 0%, var(--gradient-color-2) 90%);
-    filter: blur(13vw); /* 250px */
-    top: calc(50% - 18.5vw); /* 355px */
-    transition: left 1s var(--cubic-bezier-150);
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
 
-    &.set-0, &.set-1, &.set-3 {
-      left: 52.5%;
-    }
-
-    &.set-2 {
-      left: 10%;
-    }
-
-    &.set-4 {
-      left: 12%;
+    &.dimmed {
+      opacity: 0.75;
     }
   }
 
-  & #bg-canvas {
+  & #bg-canvas-halftone {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -142,7 +131,7 @@
   & .background {
     background: var(--bg-root-dark);
 
-    & #bg-canvas {
+    & #bg-canvas-halftone {
       color: var(--white07);
     }
   }

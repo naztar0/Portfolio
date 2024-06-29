@@ -23,3 +23,69 @@ export const escapeFI = (span: JSX.Element) => {
   }
   return span;
 };
+
+export class Vector2 {
+  x: number;
+  y: number;
+
+  constructor(x?: number, y?: number) {
+    this.x = x || -1;
+    this.y = y || -1;
+  }
+
+  static dist(a: Vector2, b: Vector2) {
+    const x = a.x - b.x;
+    const y = a.y - b.y;
+    return Math.sqrt(x * x + y * y);
+  }
+
+  static normalize(out: Vector2, a: Vector2) {
+    const length = Math.sqrt(a.x * a.x + a.y * a.y);
+    if (length > 0) {
+      out.x = a.x / length;
+      out.y = a.y / length;
+    }
+  }
+
+  static add(out: Vector2, a: Vector2, b: Vector2) {
+    out.x = a.x + b.x;
+    out.y = a.y + b.y;
+  }
+
+  static scale(out: Vector2, a: Vector2, scale: number) {
+    out.x = a.x * scale;
+    out.y = a.y * scale;
+  }
+
+  set(x: number, y: number) {
+    this.x = x;
+    this.y = y;
+  }
+
+  copy() {
+    return new Vector2(this.x, this.y);
+  }
+}
+
+export type RenderEngine = 'Blink' | 'WebKit' | 'Gecko' | 'Unknown';
+
+export const getRenderingEngine = (): RenderEngine => {
+  const engines = navigator.userAgent.matchAll(/(?<engine>Chrome|WebKit|Gecko)/g);
+
+  const detectedEngines = new Set<string>();
+  for (const match of engines) {
+    if (match.groups?.engine) {
+      detectedEngines.add(match.groups.engine);
+    }
+  }
+
+  if (detectedEngines.has('Gecko') && !detectedEngines.has('Chrome')) {
+    return 'Gecko';
+  } else if (detectedEngines.has('WebKit') && !detectedEngines.has('Chrome')) {
+    return 'WebKit';
+  } else if (detectedEngines.has('Chrome')) {
+    return 'Blink';
+  } else {
+    return 'Unknown';
+  }
+};

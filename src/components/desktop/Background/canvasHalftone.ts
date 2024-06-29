@@ -1,4 +1,4 @@
-import { scaleAny } from '@/services/utils';
+import { scaleAny, vwToPx, vhToPx, Vector2 } from '@/services/utils';
 
 interface Dot {
   pos: Vector2;
@@ -8,39 +8,7 @@ interface Dot {
 interface Point {
   pos: Vector2;
   size: number;
-}
-
-class Vector2 {
-  constructor(public x: number, public y: number) {}
-
-  static set(out: Vector2, x: number, y: number) {
-    out.x = x;
-    out.y = y;
-  }
-
-  static dist(a: Vector2, b: Vector2) {
-    const x = a.x - b.x;
-    const y = a.y - b.y;
-    return Math.sqrt(x * x + y * y);
-  }
-
-  static normalize(out: Vector2, a: Vector2) {
-    const length = Math.sqrt(a.x * a.x + a.y * a.y);
-    if (length > 0) {
-      out.x = a.x / length;
-      out.y = a.y / length;
-    }
-  }
-
-  static add(out: Vector2, a: Vector2, b: Vector2) {
-    out.x = a.x + b.x;
-    out.y = a.y + b.y;
-  }
-
-  static scale(out: Vector2, a: Vector2, scale: number) {
-    out.x = a.x * scale;
-    out.y = a.y * scale;
-  }
+  _pos: Vector2;
 }
 
 export class BgHalftone {
@@ -55,7 +23,7 @@ export class BgHalftone {
   _cellSize = 0;
   _maxSize = 0;
   _minSize = 0;
-  mousePos: Vector2 = new Vector2(-1, -1);
+  mousePos: Vector2 = new Vector2();
   dots: Dot[] = [];
   points: Point[] = [];
 
@@ -74,15 +42,15 @@ export class BgHalftone {
     this.color = getComputedStyle(this.canvas).color;
   }
 
-  addPoint(x: number, y: number, size: number = 1) {
-    this.points.push({ pos: new Vector2(x, y), size });
+  addPoint({ x, y, size }: { x: number, y: number, size: number }) {
+    this.points.push({ pos: new Vector2(x, y), size, _pos: new Vector2(vwToPx(x), vhToPx(y)) });
   }
 
   animatePoint(index: number, x: number, y: number, size: number, time: number) {
     const point = this.points[index];
 
-    const startPos = new Vector2(point.pos.x, point.pos.y);
-    const targetPos = new Vector2(x, y);
+    const startPos = point._pos.copy();
+    const targetPos = new Vector2(vwToPx(x), vhToPx(y));
     const totalDistance = Vector2.dist(startPos, targetPos);
 
     const startSize = point.size;
@@ -109,12 +77,14 @@ export class BgHalftone {
         const sizeCovered = (elapsed / time) * totalSize;
         point.size = startSize + sizeCovered * (targetSize - startSize > 0 ? 1 : -1);
 
-        Vector2.set(point.pos, startPos.x + step.x, startPos.y + step.y);
+        point._pos.set(startPos.x + step.x, startPos.y + step.y);
 
         this.drawDots();
         requestAnimationFrame(animate.bind(this));
       } else {
-        Vector2.set(point.pos, targetPos.x, targetPos.y);
+        point.pos.set(x, y);
+        point._pos.set(targetPos.x, targetPos.y);
+        point.size = size;
       }
     };
 
@@ -131,15 +101,15 @@ export class BgHalftone {
 
   drawDots() {
     this.clear();
-    this.dots.forEach(dot => {
+    this.dots.forEach((dot) => {
       dot.radius = 0;
       if (this.mousePos.x !== -1 && this.mousePos.y !== -1) {
         const distMouse = Vector2.dist(this.mousePos, dot.pos);
         dot.radius = this.clamp(this._maxSize - distMouse * 0.08, this._minSize, this._maxSize);
       }
 
-      this.points.forEach(point => {
-        const distPoint = Vector2.dist(point.pos, dot.pos);
+      this.points.forEach((point) => {
+        const distPoint = Vector2.dist(point._pos, dot.pos);
         const radiusPoint = this.clamp(this._maxSize - distPoint * 0.05 / point.size, this._minSize, this._maxSize);
         dot.radius = Math.max(dot.radius, radiusPoint);
       });
@@ -184,6 +154,9 @@ export class BgHalftone {
     this._cellSize = scaleAny(this.cellSize);
     this._maxSize = scaleAny(this.maxSize);
     this._minSize = scaleAny(this.minSize);
+    this.points.forEach((point) => {
+      point._pos.set(vwToPx(point.pos.x), vhToPx(point.pos.y));
+    });
   }
 
   handleResize() {

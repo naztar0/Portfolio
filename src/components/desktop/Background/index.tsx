@@ -1,7 +1,8 @@
 import { For, onMount, createEffect, createSignal } from 'solid-js';
-import { BgHalftone } from './canvas';
+import { BgEllipse } from './canvasEllipse';
+import { BgHalftone } from './canvasHalftone';
 import { useAppSelector } from '@/store/contextProvider';
-import { pxToVw, vwToPx, vhToPx } from '@/services/utils';
+import { getRenderingEngine } from '@/services/utils';
 import Circle from '@/assets/shapes/circle.svg';
 import Cross from '@/assets/shapes/cross.svg';
 import Pentagon from '@/assets/shapes/pentagon.svg';
@@ -15,11 +16,21 @@ const ANIM_FRAMES = 400;
 const ANIM_STEP = 4 * 100 / ANIM_FRAMES;
 const TRANSITION_DURATION = 1000;
 
+const DIMMED = getRenderingEngine() !== 'Blink';
+
+const BG_ELLIPSES = [
+  { x: 71, y: 50, radius: 0, blur: 13 },
+  { x: 71, y: 50, radius: 19, blur: 13 },
+  { x: 29, y: 50, radius: 19, blur: 13 },
+  { x: 71, y: 50, radius: 19, blur: 13 },
+  { x: 32, y: 50, radius: 25, blur: 16 },
+];
+
 const BG_HT_POINTS = [
-  { x: vwToPx(pxToVw(1370)), y: vhToPx(50), size: 0 },
-  { x: vwToPx(pxToVw(1370)), y: vhToPx(50), size: 1.4 },
-  { x: vwToPx(pxToVw(530)), y: vhToPx(50), size: 1.4 },
-  { x: vwToPx(pxToVw(1370)), y: vhToPx(50), size: 1.4 },
+  { x: 71, y: 50, size: 0 },
+  { x: 71, y: 50, size: 1.4 },
+  { x: 29, y: 50, size: 1.4 },
+  { x: 71, y: 50, size: 1.4 },
   { x: 0, y: 0, size: 0 },
 ];
 
@@ -50,17 +61,20 @@ const indexFromXY = (x1: number, y1: number) => {
 export default function Background(params: { set: () => number }) {
   const [prevSet, setPrevSet] = createSignal(0);
   const [transition, setTransition] = createSignal(false);
-  const [canvasRef, setCanvasRef] = createSignal<HTMLCanvasElement | null>(null);
+  const [canvasEllipseRef, setCanvasEllipseRef] = createSignal<HTMLCanvasElement | null>(null);
+  const [canvasHalftoneRef, setCanvasHalftoneRef] = createSignal<HTMLCanvasElement | null>(null);
   const [linearGradientRef, setLinearGradientRef] = createSignal<SVGLinearGradientElement | null>(null);
 
   const { themeService } = useAppSelector();
 
+  let bgEllipse: BgEllipse | null = null;
   let bgHalftone: BgHalftone | null = null;
 
   onMount(() => {
-    const canvasElement = canvasRef();
+    const canvasEllipseElement = canvasEllipseRef();
+    const canvasHalftoneElement = canvasHalftoneRef();
     const linearGradient = linearGradientRef();
-    if (!linearGradient || !canvasElement) {
+    if (!linearGradient || !canvasEllipseElement || !canvasHalftoneElement) {
       return;
     }
 
@@ -78,17 +92,26 @@ export default function Background(params: { set: () => number }) {
     };
     requestAnimationFrame(animationFrame);
 
-    bgHalftone = new BgHalftone(canvasElement);
+    bgEllipse = new BgEllipse(canvasEllipseElement);
+    bgHalftone = new BgHalftone(canvasHalftoneElement);
     bgHalftone.drawDots();
   });
 
   createEffect(() => {
+    if (bgEllipse?.ellipse.pos.x === -1) {
+      const ellipse = BG_ELLIPSES[params.set()];
+      bgEllipse.setEllipse(ellipse);
+    }
     if (bgHalftone?.points.length === 0) {
       const point = BG_HT_POINTS[params.set()];
-      bgHalftone.addPoint(point.x, point.y, point.size);
+      bgHalftone.addPoint(point);
     }
     if (prevSet() === params.set()) {
       return;
+    }
+    if (bgEllipse) {
+      const ellipse = BG_ELLIPSES[params.set()];
+      bgEllipse.animateEllipse(ellipse.x, ellipse.y, ellipse.radius, TRANSITION_DURATION);
     }
     if (bgHalftone) {
       const point = BG_HT_POINTS[params.set()];
@@ -124,7 +147,6 @@ export default function Background(params: { set: () => number }) {
           </linearGradient>
         </defs>
       </svg>
-      <div id="bg-ellipse" class={`set-${params.set()}`} />
       <div
         class={`bg-shapes set-${params.set()}`}
         classList={{ transition: transition() }}
@@ -137,7 +159,8 @@ export default function Background(params: { set: () => number }) {
           )}
         </For>
       </div>
-      <canvas id="bg-canvas" ref={setCanvasRef} />
+      <canvas id="bg-canvas-ellipse" classList={{ dimmed: DIMMED }} ref={setCanvasEllipseRef}/>
+      <canvas id="bg-canvas-halftone" ref={setCanvasHalftoneRef} />
     </div>
   );
 }
