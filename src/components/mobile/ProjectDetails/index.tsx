@@ -1,10 +1,13 @@
-import { JSX, Show, Switch, Match, Setter } from 'solid-js';
+import { JSX, Show, createSignal, createEffect, Switch, Match, Setter } from 'solid-js';
 import { Project } from '@/pages/mobile/Projects';
 import Stack from '@/components/mobile/Stack';
+import { LogoSquircle } from '@/components/common/ProjectDetails/canvas';
 import { useAppSelector } from '@/store/contextProvider';
 import { ViewTransitionType } from '@/constants/viewTransition';
 import * as dict from '@/locales/en/projects.json';
 import './index.css';
+
+const paintWorklet = !!(CSS.paintWorklet || window.paintWorklet);
 
 export default function ProjectDetails(params: {
   project: Project,
@@ -14,7 +17,11 @@ export default function ProjectDetails(params: {
   style?: JSX.CSSProperties,
   setRef?: (el: HTMLElement) => void,
 }) {
+  const [logoCanvasRef, setLogoCanvasRef] = createSignal<HTMLCanvasElement | null>(null);
+
   const { viewTransitionService } = useAppSelector();
+
+  let logoSquircle: LogoSquircle | null = null;
 
   const setShowStackTransition = (show: boolean) => {
     if (!document.startViewTransition) {
@@ -28,6 +35,27 @@ export default function ProjectDetails(params: {
     transition.finished.then(() => viewTransitionService.updateViewTransitionType(ViewTransitionType.NONE));
   };
 
+  createEffect(() => {
+    const canvas = logoCanvasRef();
+    if (!canvas) {
+      return;
+    }
+    if (!params.showStack()) {
+      const image = new Image();
+      image.addEventListener('load', (event) => {
+        logoSquircle = new LogoSquircle(canvas, event.target as HTMLImageElement);
+        logoSquircle.clipSquircle();
+        logoSquircle.drawBackground();
+        logoSquircle.drawLogo();
+      });
+      image.src = params.project.logo;
+    } else {
+      logoSquircle = new LogoSquircle(canvas);
+      logoSquircle.clipSquircle();
+      logoSquircle.drawBackground();
+    }
+  });
+
   const fallbackLogo = (e: Event) => {
     const target = e.target as HTMLImageElement;
     target.src = '/projects/logo/default.png';
@@ -35,9 +63,12 @@ export default function ProjectDetails(params: {
 
   return (
     <div class="project" style={params.style} ref={params.setRef}>
-      <div class="logo stack">
+      <div class="logo-stack">
         <Switch>
           <Match when={params.showStack()}>
+            <Show when={!paintWorklet}>
+              <canvas ref={setLogoCanvasRef} />
+            </Show>
             <Stack
               stackData={params.project.stack}
               showStack={params.showStack}
@@ -45,11 +76,14 @@ export default function ProjectDetails(params: {
             />
           </Match>
           <Match when={!params.showStack()}>
-            <img
-              src={params.project.logo}
-              alt={params.project.name}
-              onError={fallbackLogo}
-            />
+            <Switch>
+              <Match when={paintWorklet}>
+                <img src={params.project.logo} alt={params.project.name} onError={fallbackLogo}/>
+              </Match>
+              <Match when={!paintWorklet}>
+                <canvas ref={setLogoCanvasRef} />
+              </Match>
+            </Switch>
           </Match>
         </Switch>
       </div>

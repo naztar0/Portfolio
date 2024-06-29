@@ -1,11 +1,14 @@
 import { JSX, Show, createSignal, createEffect, Switch, Match, Setter } from 'solid-js';
 import { Project } from '@/pages/desktop/Projects';
 import Stack from '@/components/desktop/Stack';
+import { LogoSquircle } from '@/components/common/ProjectDetails/canvas';
 import { useAppSelector } from '@/store/contextProvider';
 import { ViewTransitionType } from '@/constants/viewTransition';
 import { pxToVw } from '@/services/utils';
 import * as dict from '@/locales/en/projects.json';
 import './index.css';
+
+const paintWorklet = !!(CSS.paintWorklet || window.paintWorklet);
 
 export default function ProjectDetails(params: {
   project: Project,
@@ -14,19 +17,25 @@ export default function ProjectDetails(params: {
   style?: JSX.CSSProperties,
   ref?: (el: HTMLElement) => void,
 }) {
-  const [logoRef, setLogoRef] = createSignal<HTMLElement | null>(null);
   const [showStack, setShowStack] = createSignal(false);
+  const [logoCanvasRef, setLogoCanvasRef] = createSignal<HTMLCanvasElement | null>(null);
 
   const { viewTransitionService } = useAppSelector();
 
+  let logoSquircle: LogoSquircle | null = null;
   let projRef: HTMLElement | null = null;
+  let logoRef: HTMLDivElement | null = null;
   let animating = false;
 
-  const logoAnimationFrame = (ref: HTMLElement) => {
-    const value = Math.sin(Date.now() / 1000) * 0.5;
-    ref.style.setProperty('--breath', value.toString());
+  const logoAnimationFrame = (currentTime: number) => {
+    const value = Math.sin(currentTime / 1000) * 0.5;
+    if (paintWorklet) {
+      logoRef?.style.setProperty('--breath', value.toString());
+    } else {
+      logoSquircle?.animate(value);
+    }
     if (projRef!.getAttribute('active')) {
-      requestAnimationFrame(() => logoAnimationFrame(ref));
+      requestAnimationFrame(logoAnimationFrame);
     } else {
       animating = false;
     }
@@ -34,19 +43,36 @@ export default function ProjectDetails(params: {
 
   createEffect(() => {
     params.updated();
-    const ref = logoRef();
-    if (!ref) {
-      return;
-    }
     if (projRef?.getAttribute('active')) {
       if (!animating) {
         animating = true;
-        requestAnimationFrame(() => logoAnimationFrame(ref));
+        requestAnimationFrame(logoAnimationFrame);
       }
     } else {
       if (showStack()) {
         setShowStack(false);
       }
+    }
+  });
+
+  createEffect(() => {
+    const canvas = logoCanvasRef();
+    if (!canvas) {
+      return;
+    }
+    if (!showStack()) {
+      const image = new Image();
+      image.addEventListener('load', (event) => {
+        logoSquircle = new LogoSquircle(canvas, event.target as HTMLImageElement);
+        logoSquircle.clipSquircle();
+        logoSquircle.drawBackground();
+        logoSquircle.drawLogo();
+      });
+      image.src = params.project.logo;
+    } else {
+      logoSquircle = new LogoSquircle(canvas);
+      logoSquircle.clipSquircle();
+      logoSquircle.drawBackground();
     }
   });
 
@@ -69,6 +95,10 @@ export default function ProjectDetails(params: {
     }
   };
 
+  const setLogoRef = (el: HTMLDivElement) => {
+    logoRef = el;
+  };
+
   const fallbackLogo = (e: Event) => {
     const target = e.target as HTMLImageElement;
     target.src = '/projects/logo/default.png';
@@ -76,13 +106,23 @@ export default function ProjectDetails(params: {
 
   return (
     <div class="project hide" style={params.style} ref={setProjRefs}>
-      <div class="logo stack" ref={setLogoRef}>
+      <div class="logo-stack" ref={setLogoRef}>
         <Switch>
           <Match when={showStack()}>
+            <Show when={!paintWorklet}>
+              <canvas ref={setLogoCanvasRef} />
+            </Show>
             <Stack stackData={params.project.stack} showStack={showStack} setShowStack={setShowStackTransition} />
           </Match>
           <Match when={!showStack()}>
-            <img src={params.project.logo} alt={params.project.name} onError={fallbackLogo} />
+            <Switch>
+              <Match when={paintWorklet}>
+                <img src={params.project.logo} alt={params.project.name} onError={fallbackLogo} />
+              </Match>
+              <Match when={!paintWorklet}>
+                <canvas ref={setLogoCanvasRef} />
+              </Match>
+            </Switch>
           </Match>
         </Switch>
       </div>
