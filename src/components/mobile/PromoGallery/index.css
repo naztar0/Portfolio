@@ -60,15 +60,28 @@
         transition: none;
       }
 
-      & img {
+      & .frame {
         height: 100%;
         width: 100%;
-        object-fit: contain;
         position: absolute;
         backface-visibility: hidden;
+        border-radius: 20px;
 
         &.back {
           transform: rotateY(-180deg);
+        }
+
+        & img {
+          height: inherit;
+          width: inherit;
+          object-fit: contain;
+        }
+
+        & iframe {
+          height: inherit;
+          width: inherit;
+          border: none;
+          border-radius: 1.56vw; /* 30px */
         }
       }
     }

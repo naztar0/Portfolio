@@ -26,10 +26,34 @@ export default function PromoGallery(params: {
     return true;
   };
 
+  const setChild = (parent: HTMLElement, child: HTMLElement) => {
+    if (parent.firstElementChild) {
+      parent.replaceChild(child, parent.firstElementChild);
+    } else {
+      parent.appendChild(child);
+    }
+  };
+
+  const getElement = (data: string) => {
+    let element;
+    if (data[0] === 'y') {
+      element = document.createElement('iframe');
+      element.src = 'https://www.youtube.com/embed' + data.slice(1) + '?loop=1&autoplay=1';
+      element.allowFullscreen = true;
+      element.allow = 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture';
+      element.draggable = false;
+    } else {
+      element = document.createElement('img');
+      element.draggable = false;
+      element.src = data;
+    }
+    return element;
+  };
+
   const changeCard = (type: 'prev' | 'next') => {
     const frame = frameRef();
-    const front = frame?.querySelector('img.front') as HTMLImageElement;
-    const back = frame?.querySelector('img.back') as HTMLImageElement;
+    const front = frame?.getElementsByClassName('front')[0] as HTMLImageElement;
+    const back = frame?.getElementsByClassName('back')[0] as HTMLImageElement;
     const promoData = params.promoData();
     if (!frame || !front || !back || !promoData?.length) {
       return;
@@ -40,19 +64,23 @@ export default function PromoGallery(params: {
     } else if (type === 'next' && index() < promoData.length - 1) {
       setIndex((prev) => prev + 1);
     }
+
+    const data = promoData[index()];
+    const element = getElement(data);
+
     if (index() % 2 === 0) {
-      front.src = promoData[index()];
+      setChild(front, element);
     } else {
-      back.src = promoData[index()];
+      setChild(back, element);
     }
     setTimeout(() => {
       if (index() % 2 === 0) {
-        back.src = promoData[index()];
+        setChild(back, element.cloneNode() as HTMLElement);
       } else {
-        front.src = promoData[index()];
+        setChild(front, element.cloneNode() as HTMLElement);
       }
-      front.className = 'back';
-      back.className = 'front';
+      front.classList.replace('front', 'back');
+      back.classList.replace('back', 'front');
     }, 300);
   };
 
@@ -71,6 +99,8 @@ export default function PromoGallery(params: {
 
   const close = () => {
     const root = rootRef();
+    const front = frameRef()?.getElementsByClassName('front')[0] as HTMLImageElement;
+    const back = frameRef()?.getElementsByClassName('back')[0] as HTMLImageElement;
     if (!root) {
       return;
     }
@@ -81,6 +111,12 @@ export default function PromoGallery(params: {
       root.classList.add('hidden');
       params.setPromoData(null);
       setIndex(0);
+      if (front.firstElementChild) {
+        front.removeChild(front.firstElementChild);
+      }
+      if (back.firstElementChild) {
+        back.removeChild(back.firstElementChild);
+      }
       root.removeEventListener('transitionend', onTransitionEnd);
     };
     root.classList.add('hide');
@@ -146,10 +182,10 @@ export default function PromoGallery(params: {
   });
 
   createEffect(() => {
-    const front = frameRef()?.querySelector('img.front') as HTMLImageElement;
+    const front = frameRef()?.getElementsByClassName('front')[0] as HTMLImageElement;
     const promoData = params.promoData();
-    if (front && promoData?.length) {
-      front.src = promoData[0];
+    if (front && promoData?.length && !front.firstElementChild) {
+      setChild(front, getElement(promoData[index()]));
     }
   });
 
@@ -159,9 +195,12 @@ export default function PromoGallery(params: {
       rootRef()?.classList.remove('hidden');
       setTimeout(() => rootRef()?.classList.remove('hide'), 0);
     }
-    if (promoData && promoData.length > 1) {
+    if (promoData && promoData.length > 0) {
       setTimeout(() => {
-        document.querySelectorAll('.promo-gallery .button:not(.prev)')
+        const selector = promoData.length > 1
+          ? '.promo-gallery .button:not(.prev)'
+          : '.promo-gallery .button:not(.prev):not(.next)';
+        document.querySelectorAll(selector)
           ?.forEach((el) => el.classList.remove('hidden'));
       }, 100);
     } else {
@@ -176,8 +215,8 @@ export default function PromoGallery(params: {
       <div class="promo-carousel-scene" ref={setFrameRef}>
         <div class="border left" />
         <div class="card" style={{ transform: `rotateY(${index() * -180}deg)`}} ref={setCardRef}>
-          <img class="front" draggable="false" alt="" />
-          <img class="back" draggable="false" alt="" />
+          <div class="frame front" />
+          <div class="frame back" />
         </div>
         <div class="border right"/>
       </div>

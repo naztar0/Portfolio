@@ -16,7 +16,7 @@ export interface Project {
   description: string;
   demo: string;
   source: string;
-  promo: string | string[];
+  promo: string[];
   stack: string[];
   tag: string;
   fontSizePx: number;

@@ -147,15 +147,7 @@ export default function ProjectDetails(params: {
               {dict.buttons.demo}
             </button>
           </Show>
-          <Show when={typeof params.project.promo === 'string' && params.project.promo.length}>
-            <button
-              class="button text-themed"
-              onClick={() => window.open(params.project.promo as string, '_blank')}
-            >
-              {dict.buttons.promo}
-            </button>
-          </Show>
-          <Show when={Array.isArray(params.project.promo) && params.project.promo.length}>
+          <Show when={params.project.promo.length}>
             <button
               class="button text-themed"
               onClick={() => params.setPromoData(params.project.promo as string[])}
