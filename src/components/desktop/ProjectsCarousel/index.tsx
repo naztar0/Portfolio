@@ -4,7 +4,6 @@ import { Project } from '@/pages/desktop/Projects';
 import { pxToVw } from '@/services/utils';
 import './index.css';
 
-const WHEEL_THROTTLE = 200;
 const cellSizePx = 360;
 const visibleCells = 5;
 const cellSpacing = 20;
@@ -23,11 +22,6 @@ export default function ProjectsCarousel(params: {
   const [carouselRef, setCarouselRef] = createSignal<HTMLElement | null>(null);
   const [projRefs, setProjRefs] = createSignal<HTMLElement[]>([]);
   const [updated, setUpdated] = createSignal(false);
-
-  createEffect(() => {
-    const ref = carouselRef();
-    ref?.addEventListener('wheel', onWheel);
-  });
 
   createEffect(() => {
     if (params.out() || params.expanded()) {
@@ -72,20 +66,6 @@ export default function ProjectsCarousel(params: {
       }
     }
   });
-
-  let wheelThrottleTime = 0;
-
-  const onWheel = (e: WheelEvent) => {
-    if (Date.now() - wheelThrottleTime < WHEEL_THROTTLE) {
-      return;
-    }
-    wheelThrottleTime = Date.now();
-    if (e.deltaY > 0 && params.index() < params.projects.length - 1) {
-      params.setIndex(params.index() + 1);
-    } else if (e.deltaY < 0 && params.index() > 0) {
-      params.setIndex(params.index() - 1);
-    }
-  };
 
   const addRef = (el: HTMLElement, index: number) => {
     if (el) {
