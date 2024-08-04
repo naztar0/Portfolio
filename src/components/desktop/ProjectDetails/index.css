@@ -24,11 +24,6 @@
         width: inherit;
         height: inherit;
       }
-
-      @supports (mask-image: paint(squircle)) {
-        mask-image: paint(squircle);
-        background: linear-gradient(135deg, var(--gradient-color-1) 0%, var(--gradient-color-2) 100%);
-      }
     }
 
     & .text-actions {
@@ -39,7 +34,7 @@
       flex-shrink: 0;
       width: 60%;
 
-      & .title-tag {
+      & .title-tags {
         display: flex;
         flex-direction: column;
         align-items: end;
@@ -53,14 +48,21 @@
           transition: transform 1s ease-out, opacity 1s var(--cubic-bezier-80);
         }
 
-        & .tag {
-          font-size: 1.04vw; /* 20px */
+        & .tags {
+          display: flex;
+          flex-direction: row;
+          gap: 0.52vw; /* 10px */
           margin-top: 0.42vw; /* 8px */
-          opacity: 0.8;
-          background: var(--primary-light3);
-          width: fit-content;
-          padding: 0.1vw 0.63vw; /* 2px 12px */
-          border-radius: 99px;
+
+          & .tag {
+            font-size: 1.04vw; /* 20px */
+            opacity: 0.8;
+            background: color-mix(in srgb, var(--custom-color-2), var(--white) 80%);
+            width: fit-content;
+            padding: 0.1vw 0.63vw; /* 2px 12px */
+            border-radius: 99px;
+            transition: background-color var(--color-transition-duration) linear;
+          }
         }
       }
 
@@ -92,9 +94,12 @@
         align-items: center;
         font-size: 1.04vw; /* 20px */
         font-weight: 600;
-        background: var(--button-light);
-        border: var(--border-width) solid var(--primary-light2);
-        transition: transform 0.3s var(--cubic-bezier-150), opacity 0.2s ease-in;
+        background-color: color-mix(in srgb, var(--custom-color-2), var(--white) 80%);
+        border: var(--border-width) solid color-mix(in srgb, var(--custom-color-2), var(--white) 10%);
+        transition:
+            transform 0.3s var(--cubic-bezier-150),
+            opacity 0.2s ease-in,
+            background-color var(--color-transition-duration) linear;
         transition-delay: 0.5s;
 
         &:hover {
@@ -114,17 +119,18 @@
             margin: calc(var(--border-width) * -1);
             border-radius: inherit;
             background: linear-gradient(90deg,
-              var(--gradient-color-1) 0%,
-              var(--gradient-color-2) 45%,
-              var(--gradient-color-2) 50%,
-              var(--gradient-color-1) 95%);
+              var(--custom-color-1) 0%,
+              var(--custom-color-3) 45%,
+              var(--custom-color-3) 50%,
+              var(--custom-color-1) 95%);
             background-size: 200% 100%;
             animation: btn-gradient-border 2s infinite linear;
             animation-direction: reverse;
           }
 
           &:hover {
-            background-image: var(--button-gradient);
+            background: linear-gradient(270deg, var(--custom-color-2) -20%, var(--custom-color-3) 125%);
+            color: var(--text-light);
 
             &:before {
               background: none;
@@ -140,8 +146,12 @@
   & .projects-carousel-scene {
     & .project {
       & .text-actions {
-        & .tag {
-          background: var(--white18);
+        & .title-tags {
+          & .tags {
+            & .tag {
+              background: var(--white18);
+            }
+          }
         }
 
         & p {
@@ -151,7 +161,7 @@
 
       & .actions {
         & button {
-          background: var(--button-dark);
+          background: color-mix(in srgb, var(--custom-color-2), var(--grey25) 80%);
           border: none;
 
           &.btn-gradient-border {
