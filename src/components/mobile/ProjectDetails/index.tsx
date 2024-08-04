@@ -1,4 +1,4 @@
-import { JSX, Show, createSignal, createEffect, Switch, Match, Setter } from 'solid-js';
+import { JSX, Show, createSignal, createEffect, Switch, Match, For, Setter } from 'solid-js';
 import { Project } from '@/pages/mobile/Projects';
 import Stack from '@/components/mobile/Stack';
 import { LogoSquircle } from '@/components/common/ProjectDetails/canvas';
@@ -43,16 +43,13 @@ export default function ProjectDetails(params: {
     if (!params.showStack()) {
       const image = new Image();
       image.addEventListener('load', (event) => {
-        logoSquircle = new LogoSquircle(canvas, event.target as HTMLImageElement);
-        logoSquircle.clipSquircle();
-        logoSquircle.drawBackground();
-        logoSquircle.drawLogo();
+        logoSquircle = new LogoSquircle({ canvas, image: event.target as HTMLImageElement });
+        logoSquircle.shot();
       });
       image.src = params.project.logo;
     } else {
-      logoSquircle = new LogoSquircle(canvas);
-      logoSquircle.clipSquircle();
-      logoSquircle.drawBackground();
+      logoSquircle = new LogoSquircle({ canvas });
+      logoSquircle.shot();
     }
   });
 
@@ -88,12 +85,14 @@ export default function ProjectDetails(params: {
         </Switch>
       </div>
       <div class="text-actions">
-        <div class="title-tag">
+        <div class="title-tags">
           <div class="title text-themed">
             <span>{params.project.title}</span>
           </div>
-          <div class="tag text-themed">
-            <span>{(dict.tags as any)[params.project.tag]}</span>
+          <div class="tags text-themed">
+            <For each={params.project.tags}>
+              {(tag) => <span class="tag">{(dict.tags as any)[tag]}</span>}
+            </For>
           </div>
         </div>
         <div class="description text-themed" style={{ 'font-size': `${params.project.fontSizePx}px` }}>
