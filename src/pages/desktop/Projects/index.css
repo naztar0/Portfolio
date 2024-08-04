@@ -1,4 +1,5 @@
 .projects {
+  --color-transition-duration: 0.4s;
   height: 100vh;
   display: flex;
   align-items: center;
@@ -9,6 +10,5 @@
     flex-direction: column;
     width: 58vw; /* 1120px */
     height: 36.45vw; /* 700px */
-
   }
 }

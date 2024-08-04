@@ -1,5 +1,6 @@
 import { JSX } from 'solid-js';
 import { ThemeType } from '@/constants/theme';
+import { hexToHsl, hslToHex } from './color';
 
 export const getSystemTheme = () => (
   window.matchMedia('(prefers-color-scheme: dark)').matches ? ThemeType.DARK : ThemeType.LIGHT
@@ -66,6 +67,12 @@ export class Vector2 {
     return new Vector2(this.x, this.y);
   }
 }
+
+export const generateGradientColor = (hex: string, shift: number) => {
+  const hsl = hexToHsl(hex);
+  hsl[0] = (hsl[0] + shift) % 360;
+  return hslToHex(hsl[0], hsl[1], hsl[2]);
+};
 
 export type RenderEngine = 'Blink' | 'WebKit' | 'Gecko' | 'Unknown';
 

@@ -1,24 +1,41 @@
+import { generateGradientColor } from '@/services/utils';
+
 export class LogoSquircle {
   smooth = 3;
+  shift = 60;
 
   canvas: HTMLCanvasElement;
   ctx: CanvasRenderingContext2D;
   image?: HTMLImageElement;
   gradient: CanvasGradient;
 
-  constructor(canvas: HTMLCanvasElement, image?: HTMLImageElement) {
+  constructor({ canvas, color, image, shift }: {
+    canvas: HTMLCanvasElement,
+    image?: HTMLImageElement
+    color?: string,
+    shift?: number,
+  }) {
     this.canvas = canvas;
     this.image = image;
+    this.shift = shift ?? this.shift;
     this.ctx = this.canvas.getContext('2d') as CanvasRenderingContext2D;
     this.sizeCanvas();
     this.gradient = this.ctx.createLinearGradient(0, 0, this.canvas.width, this.canvas.height);
-    this.updateColor();
+    if (color) {
+      this.gradient.addColorStop(0, color);
+      this.gradient.addColorStop(1, generateGradientColor(color, this.shift));
+    } else {
+      const style = getComputedStyle(document.documentElement);
+      this.gradient.addColorStop(0, style.getPropertyValue('--gradient-color-1'));
+      this.gradient.addColorStop(1, style.getPropertyValue('--gradient-color-2'));
+    }
   }
 
-  updateColor() {
-    const style = getComputedStyle(document.documentElement);
-    this.gradient.addColorStop(0, style.getPropertyValue('--gradient-color-1'));
-    this.gradient.addColorStop(1, style.getPropertyValue('--gradient-color-2'));
+  shot() {
+    this.clear();
+    this.clipSquircle(0);
+    this.drawBackground();
+    this.drawLogo();
   }
 
   animate(currentTime: number) {
@@ -40,7 +57,8 @@ export class LogoSquircle {
     this.ctx.drawImage(this.image, 0, 0, this.canvas.width, this.canvas.height);
   }
 
-  clipSquircle(breathAmplitude: number = 0) {
+  clipSquircle(currentTime: number = 0) {
+    const breathAmplitude = Math.sin(currentTime / 1000) * 0.5;
     const smooth = this.smooth + breathAmplitude;
 
     let m = smooth;
