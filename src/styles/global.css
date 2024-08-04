@@ -61,6 +61,10 @@ body {
 
 #root[view-transition='1'] {
   view-transition-name: root-theme;
+
+  & * {
+    transition: none !important;
+  }
 }
 
 ::view-transition-old(root) {
