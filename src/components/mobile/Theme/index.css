@@ -30,7 +30,6 @@
     justify-content: center;
     background: transparent;
     padding: 0;
-    cursor: pointer;
 
     & svg {
       width: inherit;

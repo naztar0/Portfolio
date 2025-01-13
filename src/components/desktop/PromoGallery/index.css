@@ -31,7 +31,6 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
     user-select: none;
     transition: scale 0.5s;
     animation: frame-expand 1s ease-in-out;
