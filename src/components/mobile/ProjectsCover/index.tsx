@@ -1,4 +1,4 @@
-import { createEffect, createSignal, onMount, For, Setter } from 'solid-js';
+import { createEffect, createSignal, onMount, For, Accessor, Setter } from 'solid-js';
 import { Player } from 'lottie-solid';
 import * as dict from '@/locales/en/home.json';
 import './index.css';
@@ -10,7 +10,7 @@ const illustrations = [
 ];
 
 export default function ProjectsCover(params: {
-  out: () => boolean,
+  out: Accessor<boolean>,
   setOutAll: Setter<boolean>,
   setRef: Setter<HTMLDivElement | null>,
 }) {

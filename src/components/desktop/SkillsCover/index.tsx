@@ -1,4 +1,4 @@
-import { createEffect, createSignal, onMount, For } from 'solid-js';
+import { createEffect, createSignal, onMount, For, Accessor, Setter } from 'solid-js';
 import { Player } from 'lottie-solid';
 import { escapeFI } from '@/services/utils';
 import * as dict from '@/locales/en/home.json';
@@ -10,7 +10,7 @@ const illustrations = [
   '/lottie/art.json',
 ];
 
-export default function SkillsCover(params: { out: () => boolean }) {
+export default function SkillsCover(params: { out: Accessor<boolean>, setOutAll: Setter<boolean> }) {
   const [elements, setElements] = createSignal<NodeListOf<Element>>();
 
   onMount(() => {

@@ -1,15 +1,15 @@
-import { Switch, Match, Setter, lazy } from 'solid-js';
+import { Switch, Match, lazy, Accessor, Setter } from 'solid-js';
 
 const Home = lazy(() => import('./home'));
 const Projects = lazy(() => import('./projects'));
 
 type Props = {
   page: 'home';
-  set: () => number;
+  set: Accessor<number>;
   setRef?: Setter<HTMLElement | null>;
 } | {
   page: 'projects';
-  set: () => number;
+  set: Accessor<number>;
   setRef: Setter<HTMLElement | null>;
 };
 

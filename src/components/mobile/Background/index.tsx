@@ -1,4 +1,4 @@
-import { For, onMount, createEffect, createSignal } from 'solid-js';
+import { For, onMount, createEffect, createSignal, Accessor } from 'solid-js';
 import Circle from '@/assets/shapes/circle.svg';
 import Cross from '@/assets/shapes/cross.svg';
 import Pentagon from '@/assets/shapes/pentagon.svg';
@@ -36,7 +36,7 @@ const indexFromXY = (x1: number, y1: number) => {
   }
 };
 
-export default function Background(params: { set: () => number }) {
+export default function Background(params: { set: Accessor<number> }) {
   const [prevSet, setPrevSet] = createSignal(0);
   const [transition, setTransition] = createSignal(false);
   const [linearGradientRef, setLinearGradientRef] = createSignal<SVGLinearGradientElement | null>(null);

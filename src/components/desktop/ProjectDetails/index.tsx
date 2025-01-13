@@ -1,4 +1,4 @@
-import { JSX, Show, createSignal, createEffect, Switch, Match, For, Setter } from 'solid-js';
+import { JSX, Show, createSignal, createEffect, Switch, Match, For, Accessor, Setter } from 'solid-js';
 import { Project, COLORS } from '@/pages/desktop/Projects';
 import Stack from '@/components/desktop/Stack';
 import { LogoSquircle } from '@/components/common/ProjectDetails/canvas';
@@ -10,10 +10,10 @@ import './index.css';
 
 export default function ProjectDetails(params: {
   project: Project,
-  updated: () => boolean,
+  updated: Accessor<boolean>,
   setPromoData: Setter<string[] | null>,
   style?: JSX.CSSProperties,
-  ref?: (el: HTMLElement) => void,
+  ref?: (el: HTMLDivElement) => void,
 }) {
   const [showStack, setShowStack] = createSignal(false);
   const [logoCanvasRef, setLogoCanvasRef] = createSignal<HTMLCanvasElement | null>(null);
@@ -82,7 +82,7 @@ export default function ProjectDetails(params: {
     transition.finished.then(() => viewTransitionService.updateViewTransitionType(ViewTransitionType.NONE));
   };
 
-  const setProjRefs = (el: HTMLElement) => {
+  const setProjRefs = (el: HTMLDivElement) => {
     projRef = el;
     if (params.ref) {
       params.ref(el);

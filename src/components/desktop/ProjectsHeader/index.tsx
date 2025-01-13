@@ -1,4 +1,4 @@
-import { createEffect, createSignal, For, Switch, Match, Setter } from 'solid-js';
+import { createEffect, createSignal, For, Switch, Match, Accessor, Setter } from 'solid-js';
 import { Project } from '@/pages/desktop/Projects';
 import ScrollContainer from '@/components/common/ScrollContainer';
 import ExpandMoreIcon from '@/assets/icons/expand_more.svg';
@@ -6,10 +6,10 @@ import './index.css';
 
 export default function ProjectsHeader(params: {
   projects: Project[],
-  index: () => number,
+  index: Accessor<number>,
   setIndex: Setter<number>,
-  out: () => boolean,
-  expanded: () => boolean,
+  out: Accessor<boolean>,
+  expanded: Accessor<boolean>,
   setExpanded: Setter<boolean>,
 }) {
   const [initialHeight, setInitialHeight] = createSignal(0);

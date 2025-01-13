@@ -1,4 +1,4 @@
-import { createEffect, createSignal, Setter } from 'solid-js';
+import { createEffect, createSignal, Accessor, Setter } from 'solid-js';
 import ArrowBackIcon from '@/assets/icons/arrow_back.svg';
 import CloseIcon from '@/assets/icons/close.svg';
 import './index.css';
@@ -6,7 +6,7 @@ import './index.css';
 const CARD_THROTTLE = 500;
 
 export default function PromoGallery(params: {
-  promoData: () => string[] | null;
+  promoData: Accessor<string[] | null>;
   setPromoData: Setter<string[] | null>;
 }) {
   const [index, setIndex] = createSignal(0);

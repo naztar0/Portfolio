@@ -1,4 +1,4 @@
-import { onMount, createEffect, createSignal, For, Setter } from 'solid-js';
+import { onMount, createEffect, createSignal, For, Accessor, Setter } from 'solid-js';
 import { calculateAge } from '@/services/utils';
 import { Player } from 'lottie-solid';
 import * as dict from '@/locales/en/home.json';
@@ -10,7 +10,7 @@ const illustrations = [
   '/lottie/technologist.json',
 ];
 
-export default function Greetings(params: { out: () => boolean, setRef: Setter<HTMLDivElement | null> }) {
+export default function Greetings(params: { out: Accessor<boolean>, setRef: Setter<HTMLDivElement | null> }) {
   const [elements, setElements] = createSignal<NodeListOf<Element>>();
 
   onMount(() => {

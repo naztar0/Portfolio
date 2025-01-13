@@ -1,4 +1,4 @@
-import { JSX, Show, createSignal, createEffect, Switch, Match, For, Setter } from 'solid-js';
+import { JSX, Show, createSignal, createEffect, Switch, Match, For, Accessor, Setter } from 'solid-js';
 import { Project } from '@/pages/mobile/Projects';
 import Stack from '@/components/mobile/Stack';
 import { LogoSquircle } from '@/components/common/ProjectDetails/canvas';
@@ -11,11 +11,11 @@ const paintWorklet = !!(CSS.paintWorklet || window.paintWorklet);
 
 export default function ProjectDetails(params: {
   project: Project,
-  showStack: () => boolean,
+  showStack: Accessor<boolean>,
   setShowStack: Setter<boolean>,
   setPromoData: Setter<string[] | null>,
   style?: JSX.CSSProperties,
-  setRef?: (el: HTMLElement) => void,
+  setRef?: Setter<HTMLDivElement | null>,
 }) {
   const [logoCanvasRef, setLogoCanvasRef] = createSignal<HTMLCanvasElement | null>(null);
 

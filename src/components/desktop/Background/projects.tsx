@@ -1,4 +1,4 @@
-import { createSignal, createEffect, For, Setter } from 'solid-js';
+import { createSignal, createEffect, For, Accessor, Setter } from 'solid-js';
 import Extension1 from '@/assets/shapes/tags/browser-extension/1.svg';
 import Extension2 from '@/assets/shapes/tags/browser-extension/2.svg';
 import Extension3 from '@/assets/shapes/tags/browser-extension/3.svg';
@@ -50,7 +50,7 @@ const SHAPES = [
   [Library1, Library2, Library3, Library4, Library5, Library6],
 ];
 
-export default function Projects(params: { set: () => number, setRef: Setter<HTMLElement | null> }) {
+export default function Projects(params: { set: Accessor<number>, setRef: Setter<HTMLElement | null> }) {
   const [currentSet, setCurrentSet] = createSignal(0);
   const [out, setOut] = createSignal(false);
 

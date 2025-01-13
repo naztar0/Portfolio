@@ -1,18 +1,18 @@
-import { createEffect, Setter } from 'solid-js';
+import { createEffect, Accessor, Setter } from 'solid-js';
 import ProjectDetails from '@/components/mobile/ProjectDetails';
 import { Project } from '@/pages/mobile/Projects';
 import './index.css';
 
 export default function ProjectsCarousel(params: {
   projects: Project[],
-  index: () => number,
-  out: () => boolean,
-  expanded: () => boolean,
-  showStack: () => boolean,
+  index: Accessor<number>,
+  out: Accessor<boolean>,
+  expanded: Accessor<boolean>,
+  showStack: Accessor<boolean>,
   setShowStack: Setter<boolean>,
   setPromoData: Setter<string[] | null>,
   setProjectRef: Setter<HTMLDivElement | null>,
-  carouselRef: () => HTMLDivElement | null,
+  carouselRef: Accessor<HTMLDivElement | null>,
   setCarouselRef: Setter<HTMLDivElement | null>,
 }) {
   createEffect(() => {

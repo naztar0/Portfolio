@@ -1,4 +1,4 @@
-import { createEffect, createSignal, For, onMount } from 'solid-js';
+import { createEffect, createSignal, For, onMount, Accessor } from 'solid-js';
 import Email from '@/assets/icons/email.svg';
 import Github from '@/assets/icons/github.svg';
 import Linkedin from '@/assets/icons/linkedin.svg';
@@ -24,7 +24,7 @@ const socials = [
   },
 ];
 
-export default function Socials(params: { out: () => boolean }) {
+export default function Socials(params: { out: Accessor<boolean> }) {
   const [elements, setElements] = createSignal<NodeListOf<Element>>();
 
   onMount(() => {

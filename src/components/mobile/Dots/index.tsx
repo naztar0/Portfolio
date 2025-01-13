@@ -1,9 +1,14 @@
-import { createEffect, createSignal, For, onMount } from 'solid-js';
+import { createEffect, createSignal, For, onMount, Accessor } from 'solid-js';
 import './index.css';
 
 
 export default function Dots(
-  params: { pages: number, set: () => number, changeSet: ({ value }: { value: number }) => void, out: () => boolean },
+  params: {
+    pages: number,
+    set: Accessor<number>,
+    changeSet: ({ value }: { value: number }) => void,
+    out: Accessor<boolean>,
+  },
 ) {
   const [elements, setElements] = createSignal<NodeListOf<Element>>();
 

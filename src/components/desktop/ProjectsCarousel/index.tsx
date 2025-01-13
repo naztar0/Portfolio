@@ -1,4 +1,4 @@
-import { createEffect, createSignal, For, Setter } from 'solid-js';
+import { createEffect, createSignal, For, Accessor, Setter } from 'solid-js';
 import ProjectDetails from '@/components/desktop/ProjectDetails';
 import { Project } from '@/pages/desktop/Projects';
 import { pxToVw } from '@/services/utils';
@@ -13,10 +13,10 @@ const translateZ = Math.round((cellSizePx / 2) /  Math.tan(Math.PI / visibleCell
 
 export default function ProjectsCarousel(params: {
   projects: Project[],
-  index: () => number,
+  index: Accessor<number>,
   setIndex: Setter<number>,
-  out: () => boolean,
-  expanded: () => boolean,
+  out: Accessor<boolean>,
+  expanded: Accessor<boolean>,
   setPromoData: Setter<string[] | null>,
 }) {
   const [carouselRef, setCarouselRef] = createSignal<HTMLElement | null>(null);
@@ -67,7 +67,7 @@ export default function ProjectsCarousel(params: {
     }
   });
 
-  const addRef = (el: HTMLElement, index: number) => {
+  const addRef = (el: HTMLDivElement, index: number) => {
     if (el) {
       setProjRefs((prev) => {
         const refs = prev.slice();
@@ -84,7 +84,7 @@ export default function ProjectsCarousel(params: {
           {(project, index) => (
             <ProjectDetails
               setPromoData={params.setPromoData}
-              ref={(el: HTMLElement) => addRef(el, index())}
+              ref={(el: HTMLDivElement) => addRef(el, index())}
               project={project}
               updated={updated}
             />

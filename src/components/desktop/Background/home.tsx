@@ -1,4 +1,4 @@
-import { For, onMount, createEffect, createSignal } from 'solid-js';
+import { For, onMount, createEffect, createSignal, Accessor } from 'solid-js';
 import { BgEllipse } from './canvasEllipse';
 import { BgHalftone } from './canvasHalftone';
 import { useAppSelector } from '@/store/contextProvider';
@@ -58,7 +58,7 @@ const indexFromXY = (x1: number, y1: number) => {
   }
 };
 
-export default function Home(params: { set: () => number }) {
+export default function Home(params: { set: Accessor<number> }) {
   const [currentSet, setCurrentSet] = createSignal(0);
   const [transition, setTransition] = createSignal(false);
   const [canvasEllipseRef, setCanvasEllipseRef] = createSignal<HTMLCanvasElement | null>(null);
