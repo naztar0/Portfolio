@@ -1,7 +1,10 @@
-import { createEffect, createSignal, onMount, For, Accessor, Setter } from 'solid-js';
+import { createEffect, createSignal, onMount, For, Show, Accessor, Setter } from 'solid-js';
+import { createStore } from 'solid-js/store';
 import { Player } from 'lottie-solid';
+import { Popup, PopupProps } from '@/components/mobile/Popup';
 import { escapeFI } from '@/services/utils';
 import * as dict from '@/locales/en/home.json';
+import messages from '@/locales/en/skills.json';
 import './index.css';
 
 const illustrations = [
@@ -12,6 +15,10 @@ const illustrations = [
 
 export default function SkillsCover(params: { out: Accessor<boolean>, setRef: Setter<HTMLDivElement | null> }) {
   const [elements, setElements] = createSignal<NodeListOf<Element>>();
+  const [popupOpen, setPopupOpen] = createSignal(false);
+  const [popupOut, setPopupOut] = createSignal(false);
+  const [popupIndex, setPopupIndex] = createSignal(0);
+  const [popupData, setPopupData] = createStore<PopupProps>({ message: '', buttons: [] });
 
   onMount(() => {
     setTimeout(() => setElements(document.querySelectorAll('.animate')), 100);
@@ -24,6 +31,12 @@ export default function SkillsCover(params: { out: Accessor<boolean>, setRef: Se
       elements()?.forEach((el) => el.classList.remove('hidden'));
     }
   });
+
+  const openPopup = () => {
+    setPopupData(messages[popupIndex()]);
+    setPopupOpen(true);
+    setPopupIndex((prev) => prev + 1);
+  };
 
   return (
     <div class="skills-cover content" classList={{ out: params.out() }} ref={params.setRef}>
@@ -43,10 +56,26 @@ export default function SkillsCover(params: { out: Accessor<boolean>, setRef: Se
         <div class="text text-themed animate hidden">
           <p>{dict.skills.text}</p>
         </div>
-        <div class="actions animate hidden">
-          <button class="button btn-gradient">{dict.skills.button}</button>
+        <div
+          class="actions animate hidden"
+          classList={{ invisible: popupIndex() === messages.length && !popupOpen() }}
+        >
+          <button
+            class="button btn-gradient"
+            onClick={() => openPopup()}
+          >
+            {dict.skills.button}
+          </button>
         </div>
       </div>
+      <Show when={popupOpen()}>
+        <Popup
+          {...popupData}
+          setOut={setPopupOut}
+          out={popupOut}
+          setOpen={setPopupOpen}
+        />
+      </Show>
     </div>
   );
 }

@@ -35,6 +35,11 @@
       transform: scaleX(1.5) scaleY(0);
       opacity: 0;
     }
+
+    &.invisible {
+      visibility: hidden;
+      touch-action: none;
+    }
   }
 
   & .illustrations {
