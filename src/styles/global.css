@@ -24,6 +24,18 @@ body {
   @media (max-width: 768px) {
     overflow: auto;
   }
+
+  &.out-up {
+    background: #87c5eb;
+    perspective: 104vw; /* 2000px */
+
+    & #root {
+      transform-origin: top;
+      transform-style: preserve-3d;
+      transform: translateY(-50%) rotateX(-80deg);
+      transition: transform 0.5s ease-in;
+    }
+  }
 }
 
 .button {

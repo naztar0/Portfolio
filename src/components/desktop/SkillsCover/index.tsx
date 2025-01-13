@@ -25,6 +25,13 @@ export default function SkillsCover(params: { out: Accessor<boolean>, setOutAll:
     }
   });
 
+  const changePage = (page: string) => {
+    document.body.classList.add('out-up');
+    setTimeout(() => {
+      location.assign(page);
+    }, 500);
+  };
+
   return (
     <div class="skills-cover content left" classList={{ out: params.out() }}>
       <div class="text-actions" style={{ width: '58%' }}>
@@ -36,7 +43,10 @@ export default function SkillsCover(params: { out: Accessor<boolean>, setOutAll:
         <div class="text text-themed animate hidden">
           <p>{dict.skills.text}</p>
         </div>
-        <div class="actions animate hidden">
+        <div
+          class="actions animate hidden"
+          onClick={() => changePage('/skills')}
+        >
           <button class="button btn-gradient">{dict.skills.button}</button>
         </div>
       </div>
