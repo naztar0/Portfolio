@@ -1,0 +1,85 @@
+.swipe-hint {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--white75);
+
+  &:not(.show) {
+    display: none;
+  }
+
+  & .swipe-hint-box {
+    --path-size: 7.3vw; /* 30px */
+    --hand-size: 36.6vw; /* 150px */
+    position: absolute;
+    top: 50%;
+    right: 25%;
+    transform: translate(-25%, -50%);
+
+    & .path {
+      position: absolute;
+      width: var(--path-size);
+      height: var(--path-size);
+      background: var(--black75);
+      border-radius: calc(var(--path-size) * 2);
+      left: calc(var(--hand-size) * 0.9);
+      top: 20%;
+      visibility: hidden;
+      animation: swipe-dot 2s 0.5s infinite;
+    }
+
+    & .hand {
+      position: relative;
+      width: var(--hand-size);
+      height: var(--hand-size);
+      transform-origin: bottom;
+      animation: swipe-hand 2s infinite;
+
+      & svg {
+        width: 50%;
+        height: 50%;
+        transform: translate(50%, 50%);
+        fill: var(--black90);
+      }
+    }
+  }
+}
+
+.dark-theme {
+  & .swipe-hint {
+    background: var(--black75);
+
+    & .swipe-hint-box {
+      & .path {
+        background: var(--white75);
+      }
+
+      & .hand svg {
+        fill: var(--white90);
+      }
+    }
+  }
+}
+
+@keyframes swipe-hand {
+  25% { transform: translate(20%) rotate(30deg); }
+  50% { transform: translate(-20%) rotate(-15deg); }
+  100% { transform: translate(0px) rotate(0); }
+}
+
+@keyframes swipe-dot {
+  12% {
+    visibility: visible;
+    width: calc(var(--path-size) * 2.5);
+  }
+  25% {
+    visibility: visible;
+    transform: translate(calc(var(--hand-size) * -0.95));
+    width: var(--path-size);
+  }
+  26% {
+    visibility: hidden;
+  }
+}

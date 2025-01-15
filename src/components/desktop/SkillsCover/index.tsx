@@ -1,4 +1,4 @@
-import { createEffect, createSignal, onMount, For } from 'solid-js';
+import { createEffect, createSignal, onMount, For, Accessor, Setter } from 'solid-js';
 import { Player } from 'lottie-solid';
 import { escapeFI } from '@/services/utils';
 import * as dict from '@/locales/en/home.json';
@@ -10,7 +10,7 @@ const illustrations = [
   '/lottie/art.json',
 ];
 
-export default function SkillsCover(params: { out: () => boolean }) {
+export default function SkillsCover(params: { out: Accessor<boolean>, setOutAll: Setter<boolean> }) {
   const [elements, setElements] = createSignal<NodeListOf<Element>>();
 
   onMount(() => {
@@ -25,6 +25,13 @@ export default function SkillsCover(params: { out: () => boolean }) {
     }
   });
 
+  const changePage = (page: string) => {
+    document.body.classList.add('out-up');
+    setTimeout(() => {
+      location.assign(page);
+    }, 500);
+  };
+
   return (
     <div class="skills-cover content left" classList={{ out: params.out() }}>
       <div class="text-actions" style={{ width: '58%' }}>
@@ -36,7 +43,10 @@ export default function SkillsCover(params: { out: () => boolean }) {
         <div class="text text-themed animate hidden">
           <p>{dict.skills.text}</p>
         </div>
-        <div class="actions animate hidden">
+        <div
+          class="actions animate hidden"
+          onClick={() => changePage('/skills')}
+        >
           <button class="button btn-gradient">{dict.skills.button}</button>
         </div>
       </div>

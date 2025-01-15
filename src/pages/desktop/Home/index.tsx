@@ -58,7 +58,7 @@ export default function Home() {
 
   return (
     <div class="home">
-      <Background set={set} />
+      <Background page='home' set={set} />
       {set() ? components[set() - 1]({ out, setOutAll }) : null}
       <Dots pages={components.length} set={set} changeSet={changeSet} out={outRoot} />
       <Socials out={outRoot} />

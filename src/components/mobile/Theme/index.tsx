@@ -1,4 +1,4 @@
-import { createEffect, createSignal, Switch, Match, Setter } from 'solid-js';
+import { createEffect, createSignal, Switch, Match, Accessor, Setter } from 'solid-js';
 import { useAppSelector } from '@/store/contextProvider';
 import { ThemeType } from '@/constants/theme';
 import { getSystemTheme } from '@/services/utils';
@@ -8,7 +8,7 @@ import DarkMode from '@/assets/icons/dark_mode.svg';
 import './index.css';
 
 
-export default function Theme(params: { out: () => boolean, setOut: Setter<boolean> }) {
+export default function Theme(params: { out: Accessor<boolean>, setOut: Setter<boolean> }) {
   const [theme, setTheme] = createSignal<ThemeType>(ThemeType.SYSTEM);
   const [ref, setRef] = createSignal<Element>();
 

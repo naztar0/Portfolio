@@ -72,7 +72,6 @@
         gap: 6px;
         border-radius: 14px;
         width: var(--width);
-        cursor: pointer;
         transition: background-color 0.1s;
 
         &:hover, &.active {
@@ -118,7 +117,6 @@
       margin-right: 2.44vw; /* 10px */
       border: none;
       background: var(--white25);
-      cursor: pointer;
       transition: background-color 0.2s;
 
       & svg {

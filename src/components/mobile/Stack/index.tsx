@@ -1,9 +1,9 @@
-import { createEffect, createSignal, For, onCleanup } from 'solid-js';
+import { createEffect, createSignal, For, onCleanup, Accessor } from 'solid-js';
 import './index.css';
 
 export default function Stack(params: {
   stackData: string[],
-  showStack: () => boolean,
+  showStack: Accessor<boolean>,
   setShowStack: (show: boolean) => void,
 }) {
   const [rootRef, setRootRef] = createSignal<HTMLElement | null>(null);

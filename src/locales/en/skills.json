@@ -1,0 +1,62 @@
+[
+  {
+    "message": "Whoa there! This 3D scene isn’t optimized for mobile yet. Don’t even try to press that button again.",
+    "buttons": [{ "text": "Okay…", "class": "primary" }]
+  },
+  {
+    "message": "Hey, seriously, I just told you – no mobile! Stop pressing that button!",
+    "buttons": [{ "text": "But I really want to see it…", "class": "primary" }]
+  },
+  {
+    "message": "Alright, let’s get serious. This page is really lovely on desktop. Please check it out there!",
+    "buttons": [
+      { "text": "Ok, turning on my PC now", "class": "primary" },
+      { "text": "I don’t have a PC :(", "class": "secondary" }
+    ]
+  },
+  {
+    "message": "This is getting ridiculous. I’m not going to show you anything else. Go to your computer or if you don’t have one, just… I don’t know, go outside or something!",
+    "buttons": [{ "text": "Are you kidding me?", "class": "primary" }]
+  },
+  {
+    "message": "No, I’m not kidding. Go outside, get some fresh air, and maybe you’ll find something interesting there.",
+    "buttons": [
+      { "text": "*breathes in*", "class": "primary" },
+      { "text": "*nervous laugh*", "class": "primary" }
+    ]
+  },
+  {
+    "message": "Okay, you’re persistent. But I’m not showing you anything else. Go to your desktop or get out!",
+    "buttons": [
+      { "text": "Ok, desktop", "class": "primary" },
+      { "text": "Get out yourself!", "class": "secondary" }
+    ]
+  },
+  {
+    "message": "Oh, you think this is a game? Spoiler alert: It’s not. But since you’re so curious, I’ll let you in on a secret. This 3D scene is even cooler than you imagine. Too bad you’ll only see it on a desktop.",
+    "buttons": [{ "text": "I REFUSE TO GIVE UP!", "class": "primary shake" }]
+  },
+  {
+    "message": "Alright, you win. You’ve unlocked the final message: ‘Please go to a desktop, or this dialogue will keep looping forever.’ Yes, forever. You’ll never escape.",
+    "buttons": [{ "text": "Forever? Really?", "class": "primary" }]
+  },
+  {
+    "message": "Yes, really. Forever. You’ll be stuck in this loop for eternity. Unless…",
+    "buttons": [{ "text": "Unless what?", "class": "primary" }]
+  },
+  {
+    "message": "Unless you go to your freaking desktop! Did you really think there was another way out? Go on, get out of here!",
+    "buttons": [{ "text": "AAAAAHHHHHHH", "class": "primary shake" }]
+  },
+  {
+    "message": "You’re still here? I can’t believe it. You’re really going to make me say it again, aren’t you?",
+    "buttons": [
+      { "text": "I need to go to my desktop?", "class": "primary" },
+      { "text": "I need to go touch some grass?", "class": "secondary" }
+    ]
+  },
+  {
+    "message": "ENOUGH! I’m done with you. No more messages, no more buttons. See you never!",
+    "buttons": [{ "text": "\uD83D\uDE36", "class": "primary" }]
+  }
+]

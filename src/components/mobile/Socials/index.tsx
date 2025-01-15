@@ -1,4 +1,4 @@
-import { createEffect, createSignal, For, Show } from 'solid-js';
+import { createEffect, createSignal, For, Show, Accessor } from 'solid-js';
 import Email from '@/assets/icons/email.svg';
 import Github from '@/assets/icons/github.svg';
 import Linkedin from '@/assets/icons/linkedin.svg';
@@ -25,7 +25,7 @@ const socials = [
   },
 ];
 
-export default function Socials(params: { out: () => boolean }) {
+export default function Socials(params: { out: Accessor<boolean> }) {
   const [hide, setHide] = createSignal(true);
   const [show, setShow] = createSignal(false);
   const [buttonRef, setButtonRef] = createSignal<HTMLButtonElement | null>(null);

@@ -1,4 +1,4 @@
-import { onMount, createEffect, createSignal, For } from 'solid-js';
+import { onMount, createEffect, createSignal, For, Accessor } from 'solid-js';
 import { calculateAge } from '@/services/utils';
 import { Player } from 'lottie-solid';
 import * as dict from '@/locales/en/home.json';
@@ -10,7 +10,7 @@ const illustrations = [
   '/lottie/technologist.json',
 ];
 
-export default function Greetings(params: { out: () => boolean }) {
+export default function Greetings(params: { out: Accessor<boolean> }) {
   const [elements, setElements] = createSignal<NodeListOf<Element>>();
 
   onMount(() => {

@@ -1,4 +1,4 @@
-import { createEffect, createSignal, For, Switch, Match, Setter } from 'solid-js';
+import { createEffect, createSignal, For, Switch, Match, Accessor, Setter } from 'solid-js';
 import { Project } from '@/pages/mobile/Projects';
 import ScrollContainer from '@/components/common/ScrollContainer';
 import ExpandMoreIcon from '@/assets/icons/expand_more.svg';
@@ -6,10 +6,10 @@ import './index.css';
 
 export default function ProjectsHeader(params: {
   projects: Project[],
-  index: () => number,
+  index: Accessor<number>,
   setIndex: Setter<number>,
-  out: () => boolean,
-  expanded: () => boolean,
+  out: Accessor<boolean>,
+  expanded: Accessor<boolean>,
   setExpanded: Setter<boolean>,
   setShowBack: Setter<boolean>,
 }) {
@@ -49,13 +49,16 @@ export default function ProjectsHeader(params: {
 
     ref.style.height = initialHeight() + 'px';
 
-    ref.addEventListener('transitionend', (e) => {
+    const onTransitionEnd = (e: TransitionEvent) => {
       if (e.propertyName === 'height') {
         ref.style.height = 'auto';
         ref.style.overflow = 'visible';
         ref.classList.add('show');
+        ref.removeEventListener('transitionend', onTransitionEnd);
       }
-    });
+    };
+
+    ref.addEventListener('transitionend', onTransitionEnd);
 
     setTimeout(() => {
       ref.style.height = ref.scrollHeight + 'px';
@@ -77,14 +80,17 @@ export default function ProjectsHeader(params: {
     ref.style.height = ref.scrollHeight + 'px';
     ref.style.overflow = 'hidden';
 
-    ref.addEventListener('transitionend', (e) => {
+    const onTransitionEnd = (e: TransitionEvent) => {
       if (e.propertyName === 'height') {
         params.setExpanded(false);
         params.setShowBack(true);
         ref.style.height = 'auto';
         ref.classList.remove('collapse');
+        ref.removeEventListener('transitionend', onTransitionEnd);
       }
-    });
+    };
+
+    ref.addEventListener('transitionend', onTransitionEnd);
 
     setTimeout(() => {
       ref.style.height = initialHeight() + 'px';

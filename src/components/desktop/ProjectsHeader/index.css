@@ -83,7 +83,8 @@
           width: var(--width);
           height: var(--width);
           border-radius: 50%;
-          background-color: #542f8a;
+          background-color: color-mix(in srgb, var(--custom-color-2), var(--white) 30%);
+          transition: background-color 0.5s;
 
           & .icon {
             width: inherit;
@@ -141,6 +142,10 @@
         & .app {
           &:hover, &.active {
             background-color: var(--white25);
+          }
+
+          & .icon-wrapper {
+            background-color: color-mix(in srgb, var(--custom-color-2), var(--black) 30%);
           }
 
           & .name {

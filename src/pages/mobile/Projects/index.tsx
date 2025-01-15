@@ -4,6 +4,7 @@ import ProjectsHeader from '@/components/mobile/ProjectsHeader';
 import ProjectsCarousel from '@/components/mobile/ProjectsCarousel';
 import Back from '@/components/mobile/Back';
 import PromoGallery from '@/components/mobile/PromoGallery';
+import SwipeHint from '@/components/mobile/SwipeHint';
 import { useAppSelector } from '@/store/contextProvider';
 import { ViewTransitionType } from '@/constants/viewTransition';
 import * as dict from '@/locales/en/projects.json';
@@ -18,7 +19,7 @@ export interface Project {
   source: string;
   promo: string | string[];
   stack: string[];
-  tag: string;
+  tags: string[];
   fontSizePx: number;
 }
 
@@ -39,6 +40,7 @@ export default function Projects() {
   const [componentRef, setComponentRef] = createSignal<HTMLDivElement | null>(null);
   const [rootRef, setRootRef] = createSignal<HTMLDivElement | null>(null);
   const [carouselRef, setCarouselRef] = createSignal<HTMLDivElement | null>(null);
+  const [swipeHintEnabled, setSwipeHintEnabled] = createSignal(!localStorage.getItem('swipeHintProjects'));
 
   const { viewTransitionService } = useAppSelector();
 
@@ -75,8 +77,10 @@ export default function Projects() {
     }
     if (clientX < touchStartX && project() < projects.length - 1) {
       changeProject({ type: 'next' });
+      disableSwipeHint();
     } else if (clientX > touchStartX && project() > 0) {
       changeProject({ type: 'prev' });
+      disableSwipeHint();
     }
   };
 
@@ -119,6 +123,11 @@ export default function Projects() {
     } else if (target.scrollTop > 0 && showBack()) {
       setShowBack(false);
     }
+  };
+
+  const disableSwipeHint = () => {
+    setSwipeHintEnabled(false);
+    localStorage.setItem('swipeHintProjects', '1');
   };
 
   onMount(() => {
@@ -185,6 +194,7 @@ export default function Projects() {
         show={showBack}
         setOut={setOut}
       />
+      <SwipeHint enabled={swipeHintEnabled} />
     </div>
   );
 }

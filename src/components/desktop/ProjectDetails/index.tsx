@@ -1,5 +1,5 @@
-import { JSX, Show, createSignal, createEffect, Switch, Match, Setter } from 'solid-js';
-import { Project } from '@/pages/desktop/Projects';
+import { JSX, Show, createSignal, createEffect, Switch, Match, For, Accessor, Setter } from 'solid-js';
+import { Project, COLORS } from '@/pages/desktop/Projects';
 import Stack from '@/components/desktop/Stack';
 import { LogoSquircle } from '@/components/common/ProjectDetails/canvas';
 import { useAppSelector } from '@/store/contextProvider';
@@ -8,38 +8,35 @@ import { pxToVw } from '@/services/utils';
 import * as dict from '@/locales/en/projects.json';
 import './index.css';
 
-const paintWorklet = !!(CSS.paintWorklet || window.paintWorklet);
-
 export default function ProjectDetails(params: {
   project: Project,
-  updated: () => boolean,
+  updated: Accessor<boolean>,
   setPromoData: Setter<string[] | null>,
   style?: JSX.CSSProperties,
-  ref?: (el: HTMLElement) => void,
+  ref?: (el: HTMLDivElement) => void,
 }) {
   const [showStack, setShowStack] = createSignal(false);
   const [logoCanvasRef, setLogoCanvasRef] = createSignal<HTMLCanvasElement | null>(null);
+  const [color, setColor] = createSignal('');
 
   const { viewTransitionService } = useAppSelector();
 
   let logoSquircle: LogoSquircle | null = null;
   let projRef: HTMLElement | null = null;
-  let logoRef: HTMLDivElement | null = null;
   let animating = false;
 
   const logoAnimationFrame = (currentTime: number) => {
-    const value = Math.sin(currentTime / 1000) * 0.5;
-    if (paintWorklet) {
-      logoRef?.style.setProperty('--breath', value.toString());
-    } else {
-      logoSquircle?.animate(value);
-    }
+    logoSquircle?.animate(currentTime);
     if (projRef!.getAttribute('active')) {
       requestAnimationFrame(logoAnimationFrame);
     } else {
       animating = false;
     }
   };
+
+  createEffect(() => {
+    setColor(COLORS[params.project.tags[0] as string]);
+  });
 
   createEffect(() => {
     params.updated();
@@ -63,16 +60,13 @@ export default function ProjectDetails(params: {
     if (!showStack()) {
       const image = new Image();
       image.addEventListener('load', (event) => {
-        logoSquircle = new LogoSquircle(canvas, event.target as HTMLImageElement);
-        logoSquircle.clipSquircle();
-        logoSquircle.drawBackground();
-        logoSquircle.drawLogo();
+        logoSquircle = new LogoSquircle({ canvas, color: color(), image: event.target as HTMLImageElement });
+        logoSquircle.shot();
       });
       image.src = params.project.logo;
     } else {
-      logoSquircle = new LogoSquircle(canvas);
-      logoSquircle.clipSquircle();
-      logoSquircle.drawBackground();
+      logoSquircle = new LogoSquircle({ canvas, color: color() });
+      logoSquircle.shot();
     }
   });
 
@@ -88,51 +82,35 @@ export default function ProjectDetails(params: {
     transition.finished.then(() => viewTransitionService.updateViewTransitionType(ViewTransitionType.NONE));
   };
 
-  const setProjRefs = (el: HTMLElement) => {
+  const setProjRefs = (el: HTMLDivElement) => {
     projRef = el;
     if (params.ref) {
       params.ref(el);
     }
   };
 
-  const setLogoRef = (el: HTMLDivElement) => {
-    logoRef = el;
-  };
-
-  const fallbackLogo = (e: Event) => {
-    const target = e.target as HTMLImageElement;
-    target.src = '/projects/logo/default.png';
-  };
-
   return (
     <div class="project hide" style={params.style} ref={setProjRefs}>
-      <div class="logo-stack" ref={setLogoRef}>
+      <div class="logo-stack">
         <Switch>
           <Match when={showStack()}>
-            <Show when={!paintWorklet}>
-              <canvas ref={setLogoCanvasRef} />
-            </Show>
+            <canvas ref={setLogoCanvasRef} />
             <Stack stackData={params.project.stack} showStack={showStack} setShowStack={setShowStackTransition} />
           </Match>
           <Match when={!showStack()}>
-            <Switch>
-              <Match when={paintWorklet}>
-                <img src={params.project.logo} alt={params.project.name} onError={fallbackLogo} />
-              </Match>
-              <Match when={!paintWorklet}>
-                <canvas ref={setLogoCanvasRef} />
-              </Match>
-            </Switch>
+            <canvas ref={setLogoCanvasRef} />
           </Match>
         </Switch>
       </div>
       <div class="text-actions">
-        <div class="title-tag">
+        <div class="title-tags">
           <div class="title text-themed">
             <span>{params.project.title}</span>
           </div>
-          <div class="tag text-themed">
-            <span>{(dict.tags as any)[params.project.tag]}</span>
+          <div class="tags text-themed">
+            <For each={params.project.tags}>
+              {(tag) => <span class="tag">{(dict.tags as any)[tag]}</span>}
+            </For>
           </div>
         </div>
         <div class="description text-themed" style={{ 'font-size': `${pxToVw(params.project.fontSizePx)}vw` }}>
@@ -147,15 +125,7 @@ export default function ProjectDetails(params: {
               {dict.buttons.demo}
             </button>
           </Show>
-          <Show when={typeof params.project.promo === 'string' && params.project.promo.length}>
-            <button
-              class="button text-themed"
-              onClick={() => window.open(params.project.promo as string, '_blank')}
-            >
-              {dict.buttons.promo}
-            </button>
-          </Show>
-          <Show when={Array.isArray(params.project.promo) && params.project.promo.length}>
+          <Show when={params.project.promo.length}>
             <button
               class="button text-themed"
               onClick={() => params.setPromoData(params.project.promo as string[])}

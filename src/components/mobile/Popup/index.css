@@ -1,0 +1,138 @@
+.popup {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  & .popup-background {
+    position: absolute;
+    top: inherit;
+    left: inherit;
+    width: inherit;
+    height: inherit;
+    background-color: var(--white50);
+    transition: opacity 0.3s ease-in;
+
+    &.hidden {
+      opacity: 0;
+    }
+  }
+
+  & .popup-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5.9vw; /* 24px */
+    background-color: var(--white50);
+    border-radius: 2.4vw; /* 10px */
+    padding: 3.4vw; /* 14px */
+    width: calc(90% - 4.8vw); /* 20px */
+    color: var(--text-dark);
+    backdrop-filter: blur(10px);
+    transition: transform 0.3s var(--cubic-bezier-150), opacity 0.2s ease-in;
+
+    &.hidden {
+      transform: translateY(12.2vw); /* 50px */
+      opacity: 0;
+    }
+
+    & .text {
+      line-height: 1.5;
+      font-size: 3.9vw; /* 16px */
+      text-align: center;
+      text-wrap: balance;
+    }
+
+    & .popup-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 2.4vw; /* 10px */
+
+      & button {
+        display: flex;
+        padding: 2.4vw 9.8vw; /* 10px 40px */
+        justify-content: center;
+        align-items: center;
+        gap: 2.4vw; /* 10px */
+        font-size: 3.9vw; /* 16px */
+        font-weight: 600;
+        transition: transform 0.3s var(--cubic-bezier-150), opacity 0.2s ease-in;
+        transition-delay: 0.1s;
+
+        &.shake {
+          animation: shake-hard 0.1s infinite;
+        }
+
+        &.primary {
+          background-color: var(--primary);
+        }
+
+        &.secondary {
+          color: var(--text-dark);
+          background-color: var(--button-light);
+        }
+      }
+
+      &.hidden > button {
+        transform: scaleX(1.5) scaleY(0);
+        opacity: 0;
+      }
+    }
+  }
+}
+
+.dark-theme {
+  & .popup {
+    & .popup-background {
+      background-color: var(--black50);
+    }
+
+    & .popup-content {
+      background-color: var(--black50);
+      color: var(--text-light);
+    }
+
+    & .popup-actions {
+      & button {
+        &.secondary {
+          color: var(--text-light);
+          background-color: var(--button-dark);
+        }
+      }
+    }
+  }
+}
+
+@keyframes shake-hard {
+  2% { transform: translate(3px, -3px) rotate(-0.5deg); }
+  6% { transform: translate(-2px, 3px) rotate(2.5deg); }
+  10% { transform: translate(-2px, -1px) rotate(0.5deg); }
+  14% { transform: translate(-2px, 3px) rotate(-1.5deg); }
+  18% { transform: translate(-3px, -3px) rotate(3.5deg); }
+  22% { transform: translate(2px, -2px) rotate(-0.5deg); }
+  26% { transform: translate(-1px, 2px) rotate(-1.5deg); }
+  30% { transform: translate(-3px, 3px) rotate(-0.5deg); }
+  34% { transform: translate(2px, -2px) rotate(2.5deg); }
+  38% { transform: translate(2px, 2px) rotate(-2.5deg); }
+  42% { transform: translate(-3px, -2px) rotate(-0.5deg); }
+  46% { transform: translate(-2px, 2px) rotate(-2.5deg); }
+  50% { transform: translate(-2px, -1px) rotate(1.5deg); }
+  54% { transform: translate(2px, -3px) rotate(0.5deg); }
+  58% { transform: translate(-2px, -3px) rotate(1.5deg); }
+  62% { transform: translate(-3px, -2px) rotate(-0.5deg); }
+  66% { transform: translate(-2px, 2px) rotate(2.5deg); }
+  70% { transform: translate(-3px, 3px) rotate(-2.5deg); }
+  74% { transform: translate(-2px, -2px) rotate(2.5deg); }
+  78% { transform: translate(-2px, 2px) rotate(-1.5deg); }
+  82% { transform: translate(3px, -1px) rotate(-1.5deg); }
+  86% { transform: translate(-1px, 2px) rotate(-0.5deg); }
+  90% { transform: translate(-3px, 2px) rotate(-0.5deg); }
+  94% { transform: translate(-2px, -2px) rotate(-0.5deg); }
+  98% { transform: translate(-2px, 3px) rotate(2.5deg); }
+  0%, 100% { transform: translate(0, 0) rotate(0); }
+}

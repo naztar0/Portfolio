@@ -24,6 +24,18 @@ body {
   @media (max-width: 768px) {
     overflow: auto;
   }
+
+  &.out-up {
+    background: #87c5eb;
+    perspective: 104vw; /* 2000px */
+
+    & #root {
+      transform-origin: top;
+      transform-style: preserve-3d;
+      transform: translateY(-50%) rotateX(-80deg);
+      transition: transform 0.5s ease-in;
+    }
+  }
 }
 
 .button {
@@ -31,6 +43,10 @@ body {
   border-radius: 99px;
   cursor: pointer;
   font-family: inherit;
+
+  @media (max-width: 768px) {
+    cursor: default;
+  }
 }
 
 .btn-gradient {
@@ -61,6 +77,10 @@ body {
 
 #root[view-transition='1'] {
   view-transition-name: root-theme;
+
+  & * {
+    transition: none !important;
+  }
 }
 
 ::view-transition-old(root) {
