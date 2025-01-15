@@ -87,7 +87,7 @@ export default function ProjectsHeader(params: {
       }
     };
 
-    ref.addEventListener('transitionend', onTransitionEnd);
+    ref.addEventListener('transitionend', onTransitionEnd, { capture: true });
 
     setTimeout(() => {
       ref.style.height = initialHeight() + 'px';
