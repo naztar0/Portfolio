@@ -6,6 +6,7 @@ import Theme from '@/components/mobile/Theme';
 import Greetings from '@/components/mobile/Greetings';
 import ProjectsCover from '@/components/mobile/ProjectsCover';
 import SkillsCover from '@/components/mobile/SkillsCover';
+import SwipeHint from '@/components/mobile/SwipeHint';
 import * as dict from '@/locales/en/home.json';
 import './index.css';
 
@@ -21,8 +22,9 @@ export default function Home() {
   const [set, setSet] = createSignal(0);
   const [out, setOut] = createSignal(false);
   const [outRoot, setOutRoot] = createSignal(false);
-  const [componentRef, setComponentRef] = createSignal<HTMLDivElement | null>(null);
   const [rootRef, setRootRef] = createSignal<HTMLDivElement | null>(null);
+  const [componentRef, setComponentRef] = createSignal<HTMLDivElement | null>(null);
+  const [swipeHintEnabled, setSwipeHintEnabled] = createSignal(!localStorage.getItem('swipeHintHome'));
 
   let touchStartX = 0;
   let touchStartY = 0;
@@ -30,12 +32,10 @@ export default function Home() {
   let touchForceActive = false;
   let touchForceCancel = false;
 
-  const isTouchActive = (clientX: number, clientY: number) => {
-    return (
-      Math.abs(clientX - touchStartX) > SWIPE_BOUND_X &&
-      Math.abs(clientY - touchStartY) < SWIPE_BOUND_Y
-    );
-  };
+  const isTouchActive = (clientX: number, clientY: number) => (
+    Math.abs(clientX - touchStartX) > SWIPE_BOUND_X &&
+    Math.abs(clientY - touchStartY) < SWIPE_BOUND_Y
+  );
 
   const onTouchStart = (e: TouchEvent) => {
     const { clientX, clientY } = e.touches[0];
@@ -54,8 +54,10 @@ export default function Home() {
     rootRef()!.scrollTo({ top: 0, behavior: 'smooth' });
     if (clientX < touchStartX && set() < components.length) {
       changeSet({ type: 'next' });
+      disableSwipeHint();
     } else if (clientX > touchStartX && set() > 1) {
       changeSet({ type: 'prev' });
+      disableSwipeHint();
     }
     setTimeout(() => component.style.removeProperty('transform'), OUT_DURATION);
   };
@@ -93,6 +95,11 @@ export default function Home() {
     document.addEventListener('touchmove', onTouchMove, { passive: false });
   });
 
+  const disableSwipeHint = () => {
+    setSwipeHintEnabled(false);
+    localStorage.setItem('swipeHintHome', '1');
+  };
+
   const changeSet = ({ type, value }: { type?: 'next' | 'prev', value?: number }) => {
     setOut(true);
     setTimeout(() => {
@@ -113,6 +120,7 @@ export default function Home() {
       <Dots pages={components.length} set={set} changeSet={changeSet} out={outRoot} />
       <Socials out={outRoot} />
       <Theme out={outRoot} setOut={setOutRoot} />
+      <SwipeHint enabled={swipeHintEnabled} />
     </div>
   );
 }
