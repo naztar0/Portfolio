@@ -44,14 +44,17 @@ export default function Home() {
   };
 
   const onTouchEnd = (e: TouchEvent) => {
+    const root = rootRef()!;
     const component = componentRef()!;
     touchForceActive = false;
     touchForceCancel = false;
+    root.classList.remove('no-scroll');
     const { clientX, clientY } = e.changedTouches[0];
     if ((!isTouchActive(clientX, clientY) && !touchForceActive) || touchForceCancel) {
+      component.style.removeProperty('transform');
       return;
     }
-    rootRef()!.scrollTo({ top: 0, behavior: 'smooth' });
+    root.scrollTo({ top: 0, behavior: 'smooth' });
     if (clientX < touchStartX && set() < components.length) {
       changeSet({ type: 'next' });
       disableSwipeHint();
@@ -63,8 +66,11 @@ export default function Home() {
   };
 
   const onTouchMove = (e: TouchEvent) => {
-    if (!touchForceCancel) {
-      e.preventDefault();
+    const root = rootRef()!;
+    if (!touchForceActive) {
+      root.classList.remove('no-scroll');
+    } else {
+      root.classList.add('no-scroll');
     }
     const component = componentRef()!;
     const { clientX, clientY } = e.touches[0];
@@ -92,7 +98,7 @@ export default function Home() {
     setTimeout(() => setSet(1), 200);
     document.addEventListener('touchstart', onTouchStart);
     document.addEventListener('touchend', onTouchEnd);
-    document.addEventListener('touchmove', onTouchMove, { passive: false });
+    document.addEventListener('touchmove', onTouchMove);
   });
 
   const disableSwipeHint = () => {

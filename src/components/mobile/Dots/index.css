@@ -2,19 +2,20 @@
   position: fixed;
   bottom: 0;
   left: 0;
-  padding: 12px;
-  width: calc(100% - 24px);
+  width: 100%;
+  height: var(--footer-height);
   display: inline-flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  gap: 16px;
-  background: var(--bg-root-light);
+  gap: 3.9vw; /* 16px */
+  background: var(--bg-root-light-25);
+  backdrop-filter: blur(20px);
   transition: opacity 0.2s ease-in-out;
 
   & .dot {
-    width: 14px;
-    height: 14px;
+    width: 3.41vw; /* 14px */
+    height: 3.41vw; /* 14px */
     border: 1px solid var(--black);
     border-radius: 50%;
     opacity: 0.6;
@@ -27,8 +28,8 @@
     }
 
     &.active {
-      width: 15px;
-      height: 15px;
+      width: 3.66vw; /* 15px */
+      height: 3.66vw; /* 15px */
       background-color: var(--primary);
       border: none;
     }
@@ -46,7 +47,7 @@
 
 .dark-theme {
   & .dots {
-    background: var(--bg-root-dark);
+    background: var(--bg-root-dark-25);
 
     & .dot {
       border-color: var(--white);
