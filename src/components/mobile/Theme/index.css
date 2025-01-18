@@ -1,5 +1,5 @@
 .page-theme {
-  position: absolute;
+  position: fixed;
   top: 2.5vw /* 10px */;
   right: 2.5vw /* 10px */;
   padding: 2px;

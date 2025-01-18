@@ -56,6 +56,9 @@
     --bg-root-light: #f5e0ff;
     --bg-root-dark: #0a0025;
 
+    --bg-root-light-25: color-mix(in srgb, var(--bg-root-light), transparent 75%);
+    --bg-root-dark-25: color-mix(in srgb, var(--bg-root-dark), transparent 75%);
+
     --bg-elevated-light: var(--grey90);
     --bg-elevated-dark: var(--grey12);
     --bg-elevated-hover-light: var(--black10);

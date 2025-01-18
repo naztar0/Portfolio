@@ -65,10 +65,13 @@ export default function Projects() {
 
   const onTouchEnd = (e: TouchEvent) => {
     const root = rootRef()!;
+    const component = componentRef()!;
     touchForceActive = false;
     touchForceCancel = false;
+    root.classList.remove('no-scroll');
     const { clientX, clientY } = e.changedTouches[0];
     if ((!isTouchActive(clientX, clientY) && !touchForceActive) || touchForceCancel) {
+      component.style.removeProperty('transform');
       return;
     }
     root.scrollTo({ top: 0, behavior: 'smooth' });
@@ -86,10 +89,12 @@ export default function Projects() {
 
   const onTouchMove = (e: TouchEvent) => {
     const root = rootRef()!;
-    const component = componentRef()!;
-    if (!touchForceCancel) {
-      e.preventDefault();
+    if (!touchForceActive) {
+      root.classList.remove('no-scroll');
+    } else {
+      root.classList.add('no-scroll');
     }
+    const component = componentRef()!;
     if (root.scrollTop === 0 && !showBack() && !expanded()) {
       setShowBack(true);
     } else if (root.scrollTop > 0 && showBack()) {
@@ -135,7 +140,7 @@ export default function Projects() {
     const root = rootRef()!;
     component.addEventListener('touchstart', onTouchStart);
     component.addEventListener('touchend', onTouchEnd);
-    component.addEventListener('touchmove', onTouchMove, { passive: false });
+    component.addEventListener('touchmove', onTouchMove);
     root.addEventListener('scrollend', onScrollEnd);
   });
 

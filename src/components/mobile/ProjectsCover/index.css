@@ -38,7 +38,7 @@
   }
 
   & .illustrations {
-    --size: 85.3vw; /* 350px */
+    --size: 92.68vw; /* 380px */
     position: relative;
     width: var(--size);
     height: var(--size);
