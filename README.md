@@ -1,28 +1,39 @@
-## Usage
+# Neulen's Dev Corner
 
-```bash
-$ npm install # or pnpm install or yarn install
-```
+![Static Badge](https://img.shields.io/badge/TypeScript-5.7-blue)
+![Static Badge](https://img.shields.io/badge/Solid.js-1.8-blue)
 
-### Learn more on the [Solid Website](https://solidjs.com) and come chat with us on our [Discord](https://discord.com/invite/solidjs)
+A modern, interactive portfolio website showcasing personal projects, skills, and work experience. Features responsive design with distinct mobile and desktop experiences, rich animations, and a separate 3D skills visualization scene.
 
-## Available Scripts
+[Preview](https://github.com/user-attachments/assets/05887812-51aa-47f8-8c7b-1e6aeebc537c)
 
-In the project directory, you can run:
+## Overview
+This portfolio consists of two parts:
+- Main site (current repository) – Showcase with personal projects and about section
+- [3D Skills Visualization](https://github.com/naztar0/portfolio-skills) – Interactive 3D scene for visualizing skills and technologies
 
-### `npm run dev`
+## Live Site
+Visit the website at [neulen.dev](https://neulen.dev)
 
-Runs the app in the development mode.<br>
-Open [http://localhost:5173](http://localhost:5173) to view it in the browser.
+## Setup
+To run the project locally:
+1. Clone this repository:
+   ```
+   git clone https://github.com/naztar0/Portfolio.git
+   ```
+2. Navigate to the project folder:
+   ```
+   cd Portfolio
+   ```
+3. Install dependencies:
+   ```
+   npm install
+   ```
+4. Start the development server:
+   ```
+   npm run dev
+   ```
+5. Open your browser and go to `http://localhost:5173`.
 
-### `npm run build`
-
-Builds the app for production to the `dist` folder.<br>
-It correctly bundles Solid in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
-
-## Deployment
-
-Learn more about deploying your application with the [documentations](https://vitejs.dev/guide/static-deploy.html)
+## Contributing
+Feedback and contributions are welcome! Feel free to open issues or submit pull requests.
