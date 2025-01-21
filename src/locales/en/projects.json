@@ -77,6 +77,18 @@
       "fontSizePx": 18
     },
     {
+      "name": "Gift App",
+      "title": "Gift App Bot",
+      "logo": "/projects/logo/gift-app.webp",
+      "demo": "https://t.me/GitfAppBot/app",
+      "source": "https://github.com/naztar0/gift-app-back",
+      "promo": ["/projects/promo/gift-app/1.webp", "/projects/promo/gift-app/2.webp", "/projects/promo/gift-app/3.webp", "/projects/promo/gift-app/4.webp", "/projects/promo/gift-app/5.webp", "/projects/promo/gift-app/6.webp", "/projects/promo/gift-app/7.webp", "y/-IHK5wTIoLg"],
+      "tags": ["telegram-bot", "web-app"],
+      "stack": ["Node.js" ,"TypeScript", "React", "Adonis.js", "Grammy", "MongoDB", "CryptoPay"],
+      "description": "A Telegram Mini App for the CryptoBot Fullstack-developer Contest. The app allows users to buy gifts using the Crypto Pay payment system, give them to other users, view a leaderboard and user profiles. The app supports two languages and has both light and dark themes. I took third place in this contest!",
+      "fontSizePx": 21
+    },
+    {
       "name": "Stickers Bot",
       "title": "Stickers Search Bot",
       "logo": "/projects/logo/stickers-search-bot.webp",
