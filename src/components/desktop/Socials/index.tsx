@@ -1,4 +1,5 @@
 import { createEffect, createSignal, For, onMount, Accessor } from 'solid-js';
+import * as config from '@/config';
 import Email from '@/assets/icons/email.svg';
 import Github from '@/assets/icons/github.svg';
 import Linkedin from '@/assets/icons/linkedin.svg';
@@ -8,19 +9,19 @@ import './index.css';
 const socials = [
   {
     icon: Linkedin,
-    link: 'https://linkedin.com/in/neulen/',
+    link: config.LINKEDIN_LINK,
   },
   {
     icon: Telegram,
-    link: 'https://t.me/NrTrN/',
+    link: config.TELEGRAM_LINK,
   },
   {
     icon: Github,
-    link: 'https://github.com/naztar0/',
+    link: config.GITHUB_LINK,
   },
   {
     icon: Email,
-    link: 'mailto:hello@neulen.dev',
+    link: config.EMAIL_LINK,
   },
 ];
 
