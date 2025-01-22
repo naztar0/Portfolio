@@ -2,6 +2,7 @@ import { createEffect, createSignal, onMount } from 'solid-js';
 import { useAppSelector } from '@/store/contextProvider';
 import { getSystemTheme } from '@/services/utils';
 import { ThemeType } from '@/constants/theme';
+import '@/components/common/EasterEggs/console';
 
 declare global {
   namespace CSS {
