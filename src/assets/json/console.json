@@ -1,0 +1,5 @@
+{
+  "img": "https://static.neulen.dev/portfolio/dwayne.webp",
+  "caption": "Why did you open console?",
+  "style": "background: black url(%url%) top/contain no-repeat; color: cyan; text-shadow: 0 0 1px black; font-weight: bold; padding-top: calc(96px * 2 - 1rem); padding-inline: 6px; border-radius: 0.5rem;"
+}
