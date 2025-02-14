@@ -29,6 +29,18 @@
       "fontSizePx": 20
     },
     {
+      "name": "Truster",
+      "title": "Truster",
+      "logo": "/projects/logo/truster-bot.webp",
+      "demo": "https://t.me/TrusterBot",
+      "source": "",
+      "promo": ["/projects/promo/truster-bot/1.webp", "/projects/promo/truster-bot/2.webp", "/projects/promo/truster-bot/3.webp", "/projects/promo/truster-bot/4.webp", "/projects/promo/truster-bot/5.webp", "/projects/promo/truster-bot/6.webp"],
+      "tags": ["telegram-bot"],
+      "stack": ["Python", "Django", "Aiogram", "Telethon", "TON SDK", "TON Connect SDK", "TonTools", "TonAPI"],
+      "description": "This bot helps prevent fraud by letting users check others' details before making transactions. Its key feature is acting as a guarantor in deals between clients and contractors, processing payments in TON and USDT cryptocurrencies. Users can check contractors' ratings and reviews before hiring, plus earn commission through referrals.",
+      "fontSizePx": 21
+    },
+    {
       "name": "NeoCab Web",
       "title": "NeoCab",
       "logo": "/projects/logo/neocab-web.svg",
