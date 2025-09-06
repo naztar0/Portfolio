@@ -47,7 +47,7 @@ jobs:
         run: |
           rsync -az --delete \
             -e "ssh -i ~/.ssh/id_deploy -p ${SSH_PORT}" \
-            build/ "${SSH_USER}@${SSH_HOST}:${SSH_TARGET_DIR}"
+            dist/ "${SSH_USER}@${SSH_HOST}:${SSH_TARGET_DIR}"
         env:
           SSH_USER: ${{ secrets.SSH_USER }}
           SSH_HOST: ${{ secrets.SSH_HOST }}
