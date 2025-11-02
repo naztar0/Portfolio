@@ -29,6 +29,30 @@
       "fontSizePx": 20
     },
     {
+      "name": "ChatGPT Tweaker",
+      "title": "ChatGPT Tweaker",
+      "logo": "/projects/logo/chatgpt-tweaker.webp",
+      "demo": "https://chromewebstore.google.com/detail/chatgpt-tweaker/phpmlpendadbdhafcmkpllfjilidmfgk",
+      "source": "https://github.com/naztar0/chatgpt-tweaker",
+      "promo": ["y/iIoYwHcJmRs", "/projects/promo/chatgpt-tweaker/1.webp", "/projects/promo/chatgpt-tweaker/2.webp", "/projects/promo/chatgpt-tweaker/3.webp"],
+      "tags": ["browser-extension"],
+      "stack": ["TypeScript", "Python", "Redis", "fastapi", "curl_cffi", "uhtml", "SvelteKit"],
+      "description": "A cross-browser extension that fixes what OpenAI didn't bother to. It unlocks missing features on the ChatGPT website: regenerating image responses, editing messages with attachments, temporary chats for custom GPTs, viewing hidden image-generation prompts, and more. Built with a mix of standard Chrome APIs and controlled use of the Debugger interface to patch original scripts.",
+      "fontSizePx": 18
+    },
+    {
+      "name": "Emugram",
+      "title": "Emugram",
+      "logo": "/projects/logo/emugram.webp",
+      "demo": "https://github.com/naztar0/Emugram/releases/latest",
+      "source": "https://github.com/naztar0/Emugram",
+      "promo": ["/projects/promo/emugram/1.webp", "/projects/promo/emugram/2.webp"],
+      "tags": ["desktop-app"],
+      "stack": ["C#", "UWP", "TDLib", "LibVLC", "WebRTC", "ffmpeg"],
+      "description": "Telegram client based on Unigram, a second official desktop client for Windows only. It sliiightly violates ToS and can emulate any device for Web Apps, emulate voice and video messages (upload from file and edit them), and has no limit on the number of accounts.",
+      "fontSizePx": 21
+    },
+    {
       "name": "Truster",
       "title": "Truster",
       "logo": "/projects/logo/truster-bot.webp",

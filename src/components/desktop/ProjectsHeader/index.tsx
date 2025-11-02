@@ -98,7 +98,7 @@ export default function ProjectsHeader(params: {
 
   const fallbackLogo = (e: Event) => {
     const target = e.target as HTMLImageElement;
-    target.src = '/projects/logo/default.png';
+    target.src = '/projects/logo/default.webp';
   };
 
   const onProjectClick = (i: number) => {
